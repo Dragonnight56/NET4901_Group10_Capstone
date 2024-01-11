@@ -1,8 +1,11 @@
 def round_robin(resource_element_total, resource_element_size, users_data_req):
     """
-    Function to simulate a round robin resource allocation algorithm
+    By Jacky Liang
+
+    Function to simulate a round robin resource allocation algorithm based purely on numeric data requirements.
+
+    Does not handle filling the resource grid (block).
     """
-    # By Jacky Liang
 
     served = [False] * len(users_data_req.keys())
 
