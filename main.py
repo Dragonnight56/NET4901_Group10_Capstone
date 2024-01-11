@@ -16,7 +16,7 @@ def main():
     # TODO: Put all lines graphs on same figure (grid)
         # Name: 
 
-    print(rb_alloc.round_robin(100, 10, {"1": 50, "2": 100, "3": 250}))
+    print(rb_alloc.round_robin(3, 10, {"1": 50, "2": 100, "3": 250}))
 
 if __name__ == "__main__":
     main()
