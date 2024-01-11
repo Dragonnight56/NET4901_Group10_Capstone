@@ -1,3 +1,5 @@
+import matplotlib.pyplot as plt
+
 def round_robin(channel_size, resource_element_size, users_data_req):
     """
     By Joshua Smith and Jacky Liang
@@ -87,3 +89,36 @@ def round_robin(channel_size, resource_element_size, users_data_req):
 
     return users_data_req
     """
+
+#POWER VS TIME GRAPH CREATION CODE (I am still working on it ) - SHUB 
+#############################################################################
+########### 1-time slots to the multiple time slots #####################
+
+
+
+#############################################################################
+########### multiple time slots to the powers time graph #########################
+
+# timeslots is an array that carries value for each channel per time slot
+# Here we will have timeslot { row = 3 (channels = 3 ) and cols = 4 (over 4 timeslots) }
+Timeslots = [ [1, 1, 0, 0], [1, 0, 0, 1], [ 1, 0, 1, 0] ]
+
+def powerConversion(array):
+    global counter
+    for row in array:
+        if len(row) >  0:
+            first_element = row[0]
+            if first_element == 1:
+                counter += 1
+    power_per_timeslot = counter * Power_per_channel
+    print(power_per_timeslot)
+# graphing power vs time but here we have 1    
+def GraphingPvsT():
+
+def main():
+    powerConversion(Timeslots)
+
+
+if __name__ == "__main__":
+    main()
+
