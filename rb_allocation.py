@@ -129,7 +129,7 @@ def generateTraffic(
 
 def round_robin(channel_size, resource_element_size, users_data_req):
     """
-    By Joshua Smith and Jacky Liang
+    By Joshua Smith and Jacky Liang and Shub
     Function to simulate a round robin resource allocation algorithm
 
     Create a 2D array to simulate our resource blocks
@@ -150,52 +150,57 @@ def round_robin(channel_size, resource_element_size, users_data_req):
     queue = []
 
     ##Loop 3 times for each user, start with user 1 go to 2 and 3
-    for users, data in users_data_req.items():
+     for users, data in users_data_req.items():
         i = 0
-        ##While user 1 still has data, assign to channel 1
+        User1_TS = 1
+        User2_TS = 1
+        User3_TS = 1
+
         while data > 0:
             print(data)
             if users == "1":
-                if(i > 9):
-                    print("Resource blocks full, queue extra data")
-                    queue = data
-                    break
-                else:
                     print("USER 1 found")
                     arr[0][i] = 1
                     data = data - resource_element_size
                     i = i + 1
+
                     print(arr)
+
             elif users == "2":
-                if(i > 9):
-                    print("Resource blocks full, queue extra data")
-                    queue = data
-                    break
-                else:
                     print("USER 2 found")
                     arr[1][i] = 2
                     data = data - resource_element_size
                     i = i + 1
                     print(arr)
+
             elif users == "3":
-                if(i > 9):
-                    print("Resource blocks full, queue extra data")
-                    queue = data
-                    break
-                else:
                     print("USER 3 found")
                     arr[2][i] = 3
                     data = data - resource_element_size
                     i = i + 1
-                    print(arr)  
+                    print(arr)
             else:
                 break
-                
+
+            if i > 9 and data > 0:
+                if users == "1":
+                    User1_TS += 1
+                elif users == "2":
+                    User2_TS += 1
+                elif users == "3":
+                    User3_TS += 1
+
+
+                arr = [[0 for i in range(cols)] for j in range(channel_size)]
+                i = 0
+
     for row in arr:
         print(row)
     print("This amount of data is left in the queue: " + str(queue))
-
-    return(arr)
+    print("Timeslots user 1 used:", User1_TS)
+    print("Timeslots user 2 used:", User2_TS)
+    print("Timeslots user 3 used:", User3_TS)
+    return (arr)
 
     """
     served = [False] * len(users_data_req.keys())
