@@ -20,9 +20,9 @@ def generateTraffic(
     Data is based on trafficStyle and min/maxDataSize
     Priority is randomly generated between 1 and 5
     
-    ex. [(1, 128, 2) < User 1 requests 128 bits of data with priority 2
-        (2, 176, 1)  < User 2 requests 176 bits of data with priority 1
-        (1, 64, 3)]  < User 1 requests 64 bits of data with priority 3
+    ex. [(1, 128, 2)  < User 1 requests 128 bits of data with priority 2
+         (2, 176, 1)  < User 2 requests 176 bits of data with priority 1
+         (1, 64, 3)]  < User 1 requests 64 bits of data with priority 3
     """
     # Declarations
     np.random.seed(3)
@@ -150,7 +150,7 @@ def round_robin(channel_size, resource_element_size, users_data_req):
     queue = []
 
     ##Loop 3 times for each user, start with user 1 go to 2 and 3
-     for users, data in users_data_req.items():
+    for users, data in users_data_req.items():
         i = 0
         User1_TS = 1
         User2_TS = 1
@@ -221,10 +221,74 @@ def round_robin(channel_size, resource_element_size, users_data_req):
 
     return users_data_req
     """
+# green algo( resource allocation)
+def Green(channel_size, resource_element_size, users_data_req):
+    cols = 10
+    arr = [[0 for i in range(cols)] for j in range(channel_size)]
+    print(arr)
+    queue = []
+    data_req = users_data_req
+    for users, data in users_data_req.items():
+        i = 0
+        k = 0
+        while True:
+            print(data)
 
-#POWER VS TIME GRAPH CREATION CODE (I am still working on it ) - SHUB 
-#############################################################################
-########### 1-time slots to the multiple time slots #####################
+            if users == "1":
+                print("USER 1 found")
+                arr[k][i] = 1
+                i = i + 1
+                data = users_data_req["1"]
+                data = data - resource_element_size
+                data_req["1"] = data
+                int_user = int(users)
+                int_user = int_user + 1
+                users = str(int_user)
+                print(arr)
+
+            elif users == "2":
+                print("USER 2 found")
+                arr[k][i] = 2
+                i = i + 1
+                data = users_data_req["2"]
+                data = data - resource_element_size
+                data_req["2"] = data
+                int_user = int(users)
+                int_user = int_user + 1
+                users = str(int_user)
+                print(arr)
+
+            elif users == "3":
+                print("USER 3 found")
+                arr[k][i] = 3
+                i = i + 1
+                data = users_data_req["3"]
+                data = data - resource_element_size
+                data_req["3"] = data
+                int_user = int(users)
+                int_user = int_user - 2
+                users = str(int_user)
+                print(arr)
+
+            else:
+                int_user = int(users)
+                int_user = int_user + 1
+                users = str(int_user)
+                print(users)
+
+
+            if i > 9 and data > 0:
+                k = k + 1
+                #arr = [[0 for i in range(cols)] for j in range(channel_size)]
+                i =0
+
+        for row in arr:
+            print(row)
+
+
+        return arr
+
+
 def datarate(timeslots , req_data_amt):
     datarate = 0
     datarate = req_data_amt / timeslots
