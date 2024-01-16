@@ -133,7 +133,10 @@ def Green(channel_size, resource_element_size, users_data_req):
                 #arr = [[0 for i in range(cols)] for j in range(channel_size)]
                 i =0
 
-        for row in arr:
-            print(row)
-
-        return arr
+    for row in arr:
+        print(row)
+        print("This amount of data is left in the queue: " + str(queue))
+        print("Timeslots user 1 used:", User1_TS)
+        print("Timeslots user 2 used:", User2_TS)
+        print("Timeslots user 3 used:", User3_TS)
+    return (arr)
