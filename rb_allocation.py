@@ -1,13 +1,16 @@
 from itertools import cycle
 
-def round_robin(channels, symbols, resource_element_size, users_data_req):
+def channel_for_user(channels, symbols, resource_element_size, users_data_req):
     """
-    By Joshua Smith and Jacky Liang and Shub
-    Function to simulate a round robin resource allocation algorithm
+    By Joshua Smith, Jacky Liang, Shub B
 
-    Create a 2D array to simulate our resource blocks
+    Function that reserves a whole channel in a resource block to transmit a user's data.
+    Then allocates as many resource elements it can within the channel.
+    Keep doing previous two steps until all user requests are complete.
 
-           |     ------- Time Slot (0.5ms) = # Symbols seperated by commas ---------
+    Example:
+    2D array to simulate our resource elements in resource block
+           |     ------- Time Slot (0.5ms) = # Symbols (seperated by commas) ---------
     # Channels  [0,0,0,0,0,0,0,0,0,0]
            |    [0,0,0,0,0,0,0,0,0,0]
            |    [0,0,0,0,0,0,0,0,0,0]
@@ -41,7 +44,6 @@ def round_robin(channels, symbols, resource_element_size, users_data_req):
                     data = data - resource_element_size
                     i = i + 1
                     
-        
     for row in arr:
         print(row)
     print("This amount of data is left in the queue: " + str(queue))
@@ -74,23 +76,21 @@ def round_robin(channels, symbols, resource_element_size, users_data_req):
     """
     return(arr)
 
-# green algo( resource allocation)
-def Green(channel_size, resource_element_size, users_data_req):
-    cols = 10
-    arr = [[0 for i in range(cols)] for j in range(channel_size)]
+def fill_channels(channels, symbols, resource_element_size, users_data_req):
+    arr = [[0 for i in range(symbols)] for j in range(channels)]
     data_req = users_data_req.copy()
     cyclic_keys = cycle(users_data_req.keys())
     user_counters = {user_id: 0 for user_id in users_data_req}
     while sum(data_req.values()) > 0:
-        arr = [0 for _ in range(cols) for _ in range(channel_size)]
-        for k in range(channel_size):
+        arr = [0 for _ in range(symbols) for _ in range(channels)]
+        for k in range(channels):
             print("print the k = " + str(k))
             user_id = int(next(cyclic_keys))
 
             while data_req[str(user_id)] == 0:
                 user_id = int(next(cyclic_keys))
 
-            for i in range(cols):
+            for i in range(symbols):
 
              if data_req[str(user_id)] > 0:
                 print(f"USER {user_id} found")
@@ -105,7 +105,6 @@ def Green(channel_size, resource_element_size, users_data_req):
               current_key = next(cyclic_keys)
               user_id = (int(current_key))
              
-
     for row in arr:
         print(row)
 
