@@ -37,12 +37,16 @@ def main():
     
     # Example of Generating User Traffic
     """
-    arr = rb_alloc.generateTraffic(maxUsers=10, maxDataSize=256, trafficStyle=3, totalrequests=100, dataRange=12)
+    arr = rb_alloc.generateTraffic(maxUsers=10, maxDataSize=256, trafficStyle=0, totalrequests=100, dataRange=12)
     data = [t[1] for t in arr]
     plt.scatter(np.arange(1,101), data, marker='o')
     plt.grid(True)
     plt.show()
     """
+    
+    # Example of Graphing Power and Data Over Time
+    rb_alloc.GraphingPvsT(0, 0, 0)
+    
     
 if __name__ == "__main__":
     main()
