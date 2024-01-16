@@ -1,3 +1,5 @@
+from itertools import cycle
+
 def round_robin(channels, symbols, resource_element_size, users_data_req):
     """
     By Joshua Smith and Jacky Liang and Shub
