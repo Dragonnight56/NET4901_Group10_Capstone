@@ -6,21 +6,21 @@ def datarate(timeslots , req_data_amt):
     datarate = req_data_amt / timeslots
     calculate_transmitted_power(datarate)
 
-def calculate_transmitted_power(data_rate):
+def calculate_transmitted_power(data_rate, bandwidth, power_density_noise, channel_gain):
         """
-        Calculate transmitted power using the given formula.
+        Calculate transmitted power (P_t) based on devrived formula 2 from 
+        https://www.researchgate.net/publication/278123907_User-Oriented_Energy-_and_Spectral-Efficiency_Tradeoff_for_Wireless_Networks
 
         Parameters:
-        - data_rate: Data rate (r)
-        - bandwidth: Bandwidth (w)
-        - constant_W: Constant term (W)
-        - power_density_noise: Power spectral density of noise (N0)
-        - constant_h: Another constant term (h)
+        - data_rate = Data rate (R) in bits per second (bps)
+        - bandwidth = System bandwidth (W) in Hertz (Hz)
+        - power_density_noise = Power spectral density of noise (N_0) 
+        - channel_gain = Channel gain (h)
 
         Returns:
-        - Transmitted power (Pt)
+        - Transmitted power (P_t) in Watts
         """
-        transmitted_power = (2 ** (data_rate / bandwidth) - 1) * constant_W * power_density_noise / constant_h
+        transmitted_power = (2 ** (data_rate / bandwidth) - 1) * bandwidth * power_density_noise / channel_gain
         return transmitted_power
 
 #############################################################################
