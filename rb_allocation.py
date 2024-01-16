@@ -70,3 +70,69 @@ def round_robin(channels, symbols, resource_element_size, users_data_req):
     print("Timeslots user 2 used:", User2_TS)
     print("Timeslots user 3 used:", User3_TS)
     return (arr)
+
+# green algo( resource allocation)
+def Green(channel_size, resource_element_size, users_data_req):
+    cols = 10
+    arr = [[0 for i in range(cols)] for j in range(channel_size)]
+    print(arr)
+    queue = []
+    data_req = users_data_req
+    for users, data in users_data_req.items():
+        i = 0
+        k = 0
+        while True:
+            print(data)
+
+            if users == "1":
+                print("USER 1 found")
+                arr[k][i] = 1
+                i = i + 1
+                data = users_data_req["1"]
+                data = data - resource_element_size
+                data_req["1"] = data
+                int_user = int(users)
+                int_user = int_user + 1
+                users = str(int_user)
+                print(arr)
+
+            elif users == "2":
+                print("USER 2 found")
+                arr[k][i] = 2
+                i = i + 1
+                data = users_data_req["2"]
+                data = data - resource_element_size
+                data_req["2"] = data
+                int_user = int(users)
+                int_user = int_user + 1
+                users = str(int_user)
+                print(arr)
+
+            elif users == "3":
+                print("USER 3 found")
+                arr[k][i] = 3
+                i = i + 1
+                data = users_data_req["3"]
+                data = data - resource_element_size
+                data_req["3"] = data
+                int_user = int(users)
+                int_user = int_user - 2
+                users = str(int_user)
+                print(arr)
+
+            else:
+                int_user = int(users)
+                int_user = int_user + 1
+                users = str(int_user)
+                print(users)
+
+
+            if i > 9 and data > 0:
+                k = k + 1
+                #arr = [[0 for i in range(cols)] for j in range(channel_size)]
+                i =0
+
+        for row in arr:
+            print(row)
+            
+        return arr

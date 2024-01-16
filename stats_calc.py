@@ -6,7 +6,6 @@ def datarate(timeslots , req_data_amt):
     datarate = req_data_amt / timeslots
     calculate_transmitted_power(datarate)
 
-
 def calculate_transmitted_power(data_rate):
         """
         Calculate transmitted power using the given formula.
