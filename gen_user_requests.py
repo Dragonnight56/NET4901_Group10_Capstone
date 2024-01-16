@@ -33,7 +33,7 @@ def generateTraffic(
         case 0:
             flag = True
             if (minUsers >= maxUsers):
-                UserID=1
+                userID=1
                 flag=False
                 
             for i in range(1,totalrequests+1):
@@ -57,7 +57,7 @@ def generateTraffic(
             
             flag = True
             if (minUsers >= maxUsers):
-                UserID=1
+                userID=1
                 flag=False
             
             for i in range(1,totalrequests+1):
@@ -81,7 +81,7 @@ def generateTraffic(
             
             flag = True
             if (minUsers >= maxUsers):
-                UserID=1
+                userID=1
                 flag=False
                 
             for i in range(1,totalrequests+1):
@@ -106,7 +106,7 @@ def generateTraffic(
             
             flag = True
             if (minUsers >= maxUsers):
-                UserID=1
+                userID=1
                 flag=False
             
             for i in range(1,totalrequests+1):
