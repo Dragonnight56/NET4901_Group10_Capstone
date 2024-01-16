@@ -76,67 +76,35 @@ def round_robin(channels, symbols, resource_element_size, users_data_req):
 def Green(channel_size, resource_element_size, users_data_req):
     cols = 10
     arr = [[0 for i in range(cols)] for j in range(channel_size)]
-    print(arr)
-    queue = []
-    data_req = users_data_req
-    for users, data in users_data_req.items():
-        i = 0
-        k = 0
-        while True:
-            print(data)
+    data_req = users_data_req.copy()
+    cyclic_keys = cycle(users_data_req.keys())
+    user_counters = {user_id: 0 for user_id in users_data_req}
+    while sum(data_req.values()) > 0:
+        arr = [0 for _ in range(cols) for _ in range(channel_size)]
+        for k in range(channel_size):
+            print("print the k = " + str(k))
+            user_id = int(next(cyclic_keys))
 
-            if users == "1":
-                print("USER 1 found")
-                arr[k][i] = 1
-                i = i + 1
-                data = users_data_req["1"]
-                data = data - resource_element_size
-                data_req["1"] = data
-                int_user = int(users)
-                int_user = int_user + 1
-                users = str(int_user)
-                print(arr)
+            while data_req[str(user_id)] == 0:
+                user_id = int(next(cyclic_keys))
 
-            elif users == "2":
-                print("USER 2 found")
-                arr[k][i] = 2
-                i = i + 1
-                data = users_data_req["2"]
-                data = data - resource_element_size
-                data_req["2"] = data
-                int_user = int(users)
-                int_user = int_user + 1
-                users = str(int_user)
-                print(arr)
+            for i in range(cols):
 
-            elif users == "3":
-                print("USER 3 found")
-                arr[k][i] = 3
-                i = i + 1
-                data = users_data_req["3"]
-                data = data - resource_element_size
-                data_req["3"] = data
-                int_user = int(users)
-                int_user = int_user - 2
-                users = str(int_user)
-                print(arr)
+             if data_req[str(user_id)] > 0:
+                print(f"USER {user_id} found")
+                data_req[str(user_id)] -= resource_element_size
+                user_counters[str(user_id)] += 1
+                print(f"Data for {user_id}: {data_req[str(user_id)]}")
+                arr[k][i] = user_id
 
-            else:
-                int_user = int(users)
-                int_user = int_user + 1
-                users = str(int_user)
-                print(users)
-
-
-            if i > 9 and data > 0:
-                k = k + 1
-                #arr = [[0 for i in range(cols)] for j in range(channel_size)]
-                i =0
+             print(arr)
+             print(k)
+             if i < cols - 1:
+              current_key = next(cyclic_keys)
+              user_id = (int(current_key))
+             
 
     for row in arr:
         print(row)
-        print("This amount of data is left in the queue: " + str(queue))
-        print("Timeslots user 1 used:", User1_TS)
-        print("Timeslots user 2 used:", User2_TS)
-        print("Timeslots user 3 used:", User3_TS)
-    return (arr)
+
+    return arr
