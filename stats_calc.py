@@ -38,3 +38,14 @@ def powerConversion(array):
                 counter += 1
     power_per_timeslot = counter * power_per_channel
     print(power_per_timeslot)
+
+def calcDataRate(arr):
+    print(len(arr))
+    for i in range(0, len(arr)):
+        channel = channelDataUsage(arr[i])
+    print(userData)
+
+def channelDataUsage(arr):
+    userData = {}
+    print(arr)
+    return arr
