@@ -101,7 +101,7 @@ def fill_channels(channels, symbols, resource_element_size, users_data_req):
 
              print(arr)
              print(k)
-             if i < cols - 1:
+             if i < symbols - 1:
               current_key = next(cyclic_keys)
               user_id = (int(current_key))
              
