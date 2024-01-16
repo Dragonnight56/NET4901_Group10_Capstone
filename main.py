@@ -7,7 +7,10 @@ import numpy as np
 
 def main():
     # Example calculating transmission power
-    print(cal.calculate_transmitted_power())
+    print(cal.calc_transmit_power())
+
+    # Example calculate data rate
+    print(cal.calc_data_rate())
 
     # Example of Generating User Traffic
     arr = usr_req.generateTraffic(maxUsers=10, maxDataSize=256, trafficStyle=3, totalrequests=100, dataRange=12)
