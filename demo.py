@@ -30,6 +30,7 @@ def main():
     # Third Demo, Round Robin
     
     # Fourth Demo, Power/Time Graph
+    graph.GraphingPvsT(1, 1, 1)
 
 if __name__ == "__main__":
     main()
