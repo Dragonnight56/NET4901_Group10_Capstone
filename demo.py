@@ -29,6 +29,7 @@ def main():
     rb_alloc.channel_for_user(3, 10, 10, arr)
 
     # Third Demo, Shub's algorithm
+    rb_alloc.fill_channels(3,10,10,{"1":500 , "2": 100,"3":350})
     
     # Fourth Demo, Power/Time Graph
     graph.GraphingPvsT(1, 1, 1)
