@@ -7,27 +7,28 @@ import numpy as np
 
 def main():
     # First Demo, Generating User Traffic
-    arr = usr_req.generateTraffic(maxUsers=10, maxDataSize=256, trafficStyle=0, totalrequests=100)
+    arr = usr_req.generateTraffic(maxUsers=3, maxDataSize=256, trafficStyle=0, totalrequests=100)
     data = [t[1] for t in arr]
     plt.scatter(np.arange(1,101), data, marker='o')
     plt.grid(True)
     plt.show()
     
-    arr = usr_req.generateTraffic(maxUsers=10, maxDataSize=256, trafficStyle=1, totalrequests=100, dataRange=12)
+    arr = usr_req.generateTraffic(maxUsers=3, maxDataSize=256, trafficStyle=1, totalrequests=100, dataRange=12)
     data = [t[1] for t in arr]
     plt.scatter(np.arange(1,101), data, marker='o')
     plt.grid(True)
     plt.show()
     
-    arr = usr_req.generateTraffic(maxUsers=10, maxDataSize=256, trafficStyle=3, totalrequests=100, dataRange=20)
+    arr = usr_req.generateTraffic(maxUsers=3, maxDataSize=256, trafficStyle=3, totalrequests=100, dataRange=20)
     data = [t[1] for t in arr]
     plt.scatter(np.arange(1,101), data, marker='o')
     plt.grid(True)
     plt.show()
 
-    # Second Demo, Organizing User Traffic
-    
-    # Third Demo, Round Robin
+    # Second Demo, Joshua's algorithm
+    rb_alloc.channel_for_user(3, 10, 10, arr)
+
+    # Third Demo, Shub's algorithm
     
     # Fourth Demo, Power/Time Graph
     graph.GraphingPvsT(1, 1, 1)
