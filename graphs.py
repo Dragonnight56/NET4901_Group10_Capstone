@@ -23,11 +23,11 @@ def GraphingPvsT(time=0, power=1, dataReq=1):
             newNum = power[i]
         newArr.append(newNum)
         
-    # Simple Example
-            
+        
     # Plotting
-    plt.bar(np.arange(1, time+1), newArr, color='red')                       # Ideal Scenario
-    plt.bar(np.arange(1, time+1), power)                                   # Service Coverage Losses
+    # TODO: Fix this so that the colors show correctly
+    plt.bar(np.arange(1, time+1), newArr, color='red')                      # Ideal Scenario
+    plt.bar(np.arange(1, time+1), power, color='blue')                      # Service Coverage Losses
     plt.plot(np.arange(1, time+1), power, color='green')                    # Actual Data Rate
     plt.show()
         
