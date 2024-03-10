@@ -15,7 +15,9 @@ class Station:
         self.stationID = stationID
         self.posX = posX
         self.posY = posY
+        self.users = []
         self.range = range
+        # set of currently connected users
 
 class User:
     # This defines the User node
@@ -23,21 +25,36 @@ class User:
         self.userID = userID
         self.posX = posX
         self.posY = posY
-        self.associatedStation = -1
         self.traffic = -1
+        # set of possible stations based on range
 
     # This is used to create more/different traffic for a User
-    def generateTraffic(self, generatedTraffic):
-        self.traffic = generatedTraffic
+    def generateTraffic(self, seed):
+        self.traffic = traffic.generateTraffic(seed)
         
-    def reCalculateAssociation(self, stationArr):
-        candidate = 0
+def calculateAssociations(userArr, stationArr):
+    # For Every User
+    for user in userArr:
+        candidate = None
         candidateDistance = float('inf')
         
+        # For Every Station
         for station in stationArr:
-            distance = np.sqrt((station.posX - self.posX)**2 + (station.posY - self.posY)**2)
-            if distance < candidateDistance:
+            # Find the Distance
+            distance = np.sqrt((station.posX - user.posX)**2 + (station.posY - user.posY)**2)
+            
+            # See if this distance is in range and better than the candidate
+            if distance <= station.range and distance < candidateDistance:
                 candidate = station
                 candidateDistance = distance
         
-        self.associatedStation = candidate
+        if candidate is not None:  # Check if a valid candidate was found
+            candidate.users.append(user)
+        
+
+            
+    
+
+        
+
+

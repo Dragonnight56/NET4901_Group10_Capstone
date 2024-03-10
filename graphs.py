@@ -34,9 +34,9 @@ def GraphingPvsT(time=0, power=1, dataReq=1):
 
 # This function is used to graph the current situation from the data provided
 # It takes the plane object, as well as the station and user objects (both in the form of arrays) as input
-def graphPlane(plane, stationArr, userArr):
+def graphPlane(plane, stationArr):
     # Graph the Plane
-    plt.figure(figsize=(10,10))
+    plt.figure(figsize=(8,8))
     plt.xlim(0, plane.width)
     plt.ylim(0, plane.height)
     
@@ -46,14 +46,14 @@ def graphPlane(plane, stationArr, userArr):
         plt.scatter(station.posX, station.posY, color='black', marker='o')
         plt.gca().add_patch(plt.Circle((station.posX, station.posY), station.range, color='gray', alpha=0.3))
     
-    # Add the Users 
-    for user in userArr:
-        # Plot Users
-        plt.scatter(user.posX, user.posY, color='blue', marker='o')
-        
-        # Plot Associations
-        # TODO: Add Changing Color based on signal Strength
-        plt.plot([user.posX, user.associatedStation.posX], [user.posY, user.associatedStation.posY], color='green')
+        # Add the Users 
+        for user in station.users:
+            # Plot Users
+            plt.scatter(user.posX, user.posY, color='blue', marker='o')
+            
+            # Plot Associations
+            # TODO: Add Changing Color based on signal Strength
+            plt.plot([user.posX, station.posX], [user.posY, station.posY], color='green')
     
         
 

@@ -13,35 +13,48 @@ def main():
 
     # Example calculate data rate
     print(cal.calc_data_rate())
-
-    # Example of Generating User Traffic
-    arr = usr_req.generateTraffic(maxUsers=10, maxDataSize=256, trafficStyle=3, totalrequests=100, dataRange=12)
-    data = [t[1] for t in arr]
-    plt.scatter(np.arange(1,101), data, marker='o')
-    plt.grid(True)
-    plt.show()
     '''
     
     # Generating a New Plane
     plane = nodes.Plane(height=100, width=100)
     
-    # Generating a New Stations
-    stationArr = [nodes.Station(1, posX=50, posY=50, range=50),
-                  nodes.Station(2, posX=30, posY=30, range=25),
-                  nodes.Station(3, posX=70, posY=70, range=25)]
+    # Generating New Stations
+    stationArr = [nodes.Station(1, posX=25, posY=25, range=20),
+                  nodes.Station(2, posX=50, posY=50, range=50),
+                  nodes.Station(3, posX=75, posY=75, range=20)
+                  ]
     
-    # Generating a New Users
-    userArr = [nodes.User(1, posX=45, posY=45),
-               nodes.User(2, posX=65, posY=80),
-               nodes.User(3, posX=15, posY=30),
-               nodes.User(4, posX=20, posY=30)]
+    # Generating New Users
+    userArr = [nodes.User(1, posX=20, posY=25),
+               nodes.User(2, posX=40, posY=50),
+               nodes.User(3, posX=60, posY=70),
+               nodes.User(4, posX=80, posY=80),
+               nodes.User(5, posX=40, posY=65)
+                ]
     
-    # Create Associations
-    for user in userArr:
-        user.reCalculateAssociation(stationArr)
+    # Create User/Station Associations
+    nodes.calculateAssociations(userArr, stationArr)
+    
+    # Create Traffic for all Users
+    for station in stationArr:
+        for user in station.users:
+            user.generateTraffic(np.random.randint(1,100))
+            
+    # Pull User IDs and Traffic from all Stations
+    userTraffic = []
+    for station in stationArr:
+        for user in station.users:
+            userTraffic.append([user.userID, user.traffic])
+            
+    # Print Current Traffic
+    for user in userTraffic:
+        print(f"User {user[0]}: ")
+        for req in user[1]:
+            print(req, end="\t")
+        print()
     
     # Display the Current Grid
-    graph.graphPlane(plane, stationArr, userArr)
+    graph.graphPlane(plane, stationArr)
     
     
 if __name__ == "__main__":
