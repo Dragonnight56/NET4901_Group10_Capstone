@@ -30,7 +30,7 @@ def channel_for_user(channels, symbols, resource_element_size, users_data_req):
         print("USER "+ str(user[0]) + " found")
         data = user[1]
 
-        ##While user 1 still has data, assign to channel 1
+        # While user 1 still has data, assign to channel 1
         if int(user[0]) > channels:
             queue[user[0]] = data
         else:

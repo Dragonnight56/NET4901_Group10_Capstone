@@ -41,17 +41,31 @@ def main():
             user.generateTraffic(np.random.randint(1,100))
             
     # Pull User IDs and Traffic from all Stations
-    userTraffic = []
     for station in stationArr:
+        userTraffic = []
         for user in station.users:
             userTraffic.append([user.userID, user.traffic])
             
-    # Print Current Traffic
+    # Print All Current Traffic
     for user in userTraffic:
         print(f"User {user[0]}: ")
         for req in user[1]:
             print(req, end="\t")
         print()
+    
+    # Print Traffic for a specific Station
+    for user in stationArr[0].users:
+        print(f"{user.userID}: {user.traffic}")
+        
+    # Allocation Example
+    for station in stationArr:
+        trafficArr = []
+        
+        for user in station.users:
+            trafficArr.append([user.userID, user.traffic])
+        
+        print(trafficArr)
+        #rb_alloc.fill_channels(3,10,10,trafficArr)
     
     # Display the Current Grid
     graph.graphPlane(plane, stationArr)
