@@ -1,4 +1,5 @@
 import gen_user_requests as usr_req
+import nodes
 import rb_allocation as rb_alloc
 import stats_calc as cal
 import graphs as graph
@@ -6,6 +7,11 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 def main():
+    # Testing Area
+    myStation = nodes.Station(1, posX=50, posY=50, range=20, transmitterGain=5, transmitterPower=25, wavelength=0.07)
+    myStation.calcMaxRange()    
+    
+    '''
     # First Demo, Generating User Traffic
     arr = usr_req.generateTraffic(maxUsers=3, maxDataSize=256, trafficStyle=0, totalrequests=100)
     data = [t[1] for t in arr]
@@ -33,6 +39,7 @@ def main():
     
     # Fourth Demo, Power/Time Graph
     graph.GraphingPvsT(1, 1, 1)
+    '''
 
 if __name__ == "__main__":
     main()
