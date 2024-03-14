@@ -40,12 +40,15 @@ class Station:
 
 class User:
     # This defines the User node
-    def __init__(self, userID, posX=0, posY=0):
+    def __init__(self, userID, posX=0, posY=0, movX=0, movY=0):
         self.userID = userID
         self.posX = posX
+        self.movX = movX
         self.posY = posY
+        self.movY = movY
+        
+        
         self.traffic = -1
-        # set of possible stations based on range
 
     # This is used to create more/different traffic for a User
     def generateTraffic(self, seed):
@@ -56,7 +59,7 @@ def calculateSignalStrength(user, station):
     distance = np.sqrt((station.posX - user.posX)**2 + (station.posY - user.posY)**2)
         
     # Free Space Path Loss (((4pi*r)/Lam)^2)
-    loss = ((4*np.pi*distance) / station.wavelength)^2
+    loss = ((4*np.pi*distance) / station.wavelength)**2
     
     # Relative RSSI (Pt + Gt - L)
     rssi =  station.transmitterGain + station.transmitterPower - loss
@@ -67,10 +70,15 @@ def calculateAssociations(userArr, stationArr):
     # For Every User
     for user in userArr:
         candidate = None
+        currentAssociation = None
         candidateDistance = float('inf')
         
         # For Every Station
         for station in stationArr:
+            # Check if Current Association
+            if user in station.users:
+                currentAssociation = station
+            
             # Find the Distance
             distance = np.sqrt((station.posX - user.posX)**2 + (station.posY - user.posY)**2)
             
@@ -80,7 +88,15 @@ def calculateAssociations(userArr, stationArr):
                 candidateDistance = distance
         
         if candidate is not None:  # Check if a valid candidate was found
-            candidate.users.append(user)
+            # If Candidate is not Current Association
+            if not (candidate == currentAssociation):
+                # Add New Association
+                candidate.users.append(user)
+                if (currentAssociation is not None):
+                    # Destroy Old Association
+                    currentAssociation.users.remove(user)
+                
+            
         
 
             

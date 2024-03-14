@@ -8,8 +8,12 @@ import numpy as np
 
 def main():
     # Testing Area
-    myStation = nodes.Station(1, posX=50, posY=50, range=20, transmitterGain=5, transmitterPower=25, wavelength=0.07)
-    myStation.calcMaxRange()    
+    # myStation = nodes.Station(1, posX=50, posY=50, range=20, transmitterGain=5, transmitterPower=25, wavelength=0.07)
+    # myStation.calcMaxRange()    
+    
+    
+    
+    
     
     '''
     # First Demo, Generating User Traffic

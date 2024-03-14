@@ -54,7 +54,7 @@ def generateTraffic(
                 
                 priority = np.random.randint(1,5)
                 
-                users_data_req.append((userID, dataRequirement, priority)) 
+                users_data_req.append((dataRequirement, priority)) 
         
         # Linear-Descending Style - Generate Traffic from 100% to min%
         case 2:

@@ -87,7 +87,7 @@ def fill_channels(channel_size, symbols, resource_element_size, list_of_lists):
 
     for row in range(round_up):
         for col in range(10):
-            if user_traffic_dict[users[user_index]] > 10:
+            if user_traffic_dict[users[user_index]] >= 10:
                 user_traffic_dict[users[user_index]] -= resource_element_size
                 array[row][col] = users[user_index]
             user_index = (user_index + 1) % len(users)

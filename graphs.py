@@ -31,37 +31,67 @@ def GraphingPvsT(time=0, power=1, dataReq=1):
     plt.plot(np.arange(1, time+1), power, color='green')                    # Actual Data Rate
     plt.show()
         
-
 # This function is used to graph the current situation from the data provided
 # It takes the plane object, as well as the station and user objects (both in the form of arrays) as input
-def graphPlane(plane, stationArr):
-    # Graph the Plane
-    plt.figure(figsize=(8,8))
-    plt.xlim(0, plane.width)
-    plt.ylim(0, plane.height)
-    
+def plotFrame(plane, stationArr, userArr):
     # Add the Stations
     # TODO: Add Tapered Effect to the circle, indicating the loss of signal strength over distance
     for station in stationArr:
         plt.scatter(station.posX, station.posY, color='black', marker='o')
-        plt.gca().add_patch(plt.Circle((station.posX, station.posY), station.range, color='gray', alpha=0.3))
+        plt.gca().add_patch(plt.Circle((station.posX, station.posY), station.range, color='gray', alpha=0.2))
     
-        # Add the Users 
+    # Add the Users
+    for user in userArr:
+        plt.scatter(user.posX, user.posY, color='blue', marker='o')
+    
+    # Plot Associations
+    for station in stationArr:
         for user in station.users:
-            # Plot Users
-            plt.scatter(user.posX, user.posY, color='blue', marker='o')
-            
-            # Plot Associations
-            # TODO: Add Changing Color based on signal Strength
             plt.plot([user.posX, station.posX], [user.posY, station.posY], color='green')
     
-        
-
-
-    # Show the Grid
+    # Return
     plt.grid(True)
+    return
+
+def updatePositions(plane, userArr):
+    # Loop through all Users
+    for user in userArr:
+        # Find New Locations
+        newPosX = user.posX + user.movX
+        newPosY = user.posY + user.movY
+        
+        # Check X Bounds
+        if (newPosX>0) and (newPosX<plane.width):
+            user.posX = newPosX
+        else:
+            user.movX = -1*user.movX
+            user.posX = user.posX + user.movX
+            
+        # Check Y Bounds
+        if (newPosY>0) and (newPosY<plane.height):
+            user.posY = newPosY
+        else:
+            user.movY = -1*user.movY
+            user.posY = user.posY + user.movY
+
+def statSimulation(plane, stationArr, userArr, runTime):
+    # Initialize figure
+    plt.figure(figsize=(8,8))
+    
+    # Running Loop
+    for i in range(runTime):
+        plt.clf()
+        plt.xlim(0, plane.width)
+        plt.ylim(0, plane.height)
+        
+        plotFrame(plane, stationArr, userArr)
+        updatePositions(plane, userArr)
+        if i % 15:
+            nodes.calculateAssociations(userArr, stationArr)
+        plt.pause(0.01)
     plt.show()
-
-
+    
+    
+    
 if __name__ == "__main__":
     GraphingPvsT(1, 1, 1)
