@@ -73,6 +73,9 @@ def updatePositions(plane, userArr):
         else:
             user.movY = -1*user.movY
             user.posY = user.posY + user.movY
+        
+        # Prints every user's pos for every sim tick
+        # print(str(user) + ": " + str(user.posX) + ", " + str(user.posY))
 
 def statSimulation(plane, stationArr, userArr, runTime):
     # Initialize figure
@@ -86,12 +89,11 @@ def statSimulation(plane, stationArr, userArr, runTime):
         
         plotFrame(plane, stationArr, userArr)
         updatePositions(plane, userArr)
+
         if i % 15:
             nodes.calculateAssociations(userArr, stationArr)
         plt.pause(0.01)
     plt.show()
-    
-    
     
 if __name__ == "__main__":
     GraphingPvsT(1, 1, 1)
