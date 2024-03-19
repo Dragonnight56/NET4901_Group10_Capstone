@@ -101,7 +101,7 @@ def calculateAssociations(userArr, stationArr):
         
         # For Every Station
         for station in stationArr:
-            # Check if Current Association
+            # Check if Current Association Exists
             if user in station.users:
                 currentAssociation = station
             
@@ -111,16 +111,27 @@ def calculateAssociations(userArr, stationArr):
             # See if this distance is in range and better than the candidate
             if distance <= station.range and distance < candidateDistance:
                 candidate = station
-                candidateDistance = distance
-        
-        if candidate is not None:  # Check if a valid candidate was found
-            # If Candidate is not Current Association
-            if not (candidate == currentAssociation):
+                candidateDistance = distance            
+            
+        # If Candidate is not Current Association
+        if not (candidate == currentAssociation):
+            
+            # No New Candidate
+            if (candidate is None):
+                # Destroy Old Association
+                currentAssociation.users.remove(user)
+                
+            # No Old Association
+            elif (currentAssociation is None):
+                # Add new Association
+                candidate.users.append(user)
+                
+            # Candidate and Current Association Both Exist
+            else:
                 # Add New Association
                 candidate.users.append(user)
-                if (currentAssociation is not None):
-                    # Destroy Old Association
-                    currentAssociation.users.remove(user)
+                # Destroy Old Association
+                currentAssociation.users.remove(user)
                 
             
         
