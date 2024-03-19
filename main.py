@@ -27,9 +27,9 @@ def main():
                   ]
     
     # Generating New Users
-    userArr = nodes.generateUsers(plane, numberOfUsers=12, speed=2)
+    userArr = nodes.generateUsers(plane, numberOfUsers=6, speed=3)
     
-    # Create User/Station Associations
+    # Create Initial User/Station Associations
     nodes.calculateAssociations(userArr, stationArr)
     
     # Create Traffic for all Users
