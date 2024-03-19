@@ -52,8 +52,24 @@ class User:
 
     # This is used to create more/different traffic for a User
     def generateTraffic(self, seed):
-        self.traffic = traffic.generateTraffic(seed)
+        self.traffic = np.random.uniform(8, 64)
+        self.traffic = traffic.generateTraffic(seed=seed)
      
+def generateUsers(plane, numberOfUsers, speed):
+    userArr = []
+    
+    # Generating Users
+    for element in range(numberOfUsers):
+        userArr.append(User(element, 
+                            posX=np.random.uniform(0, plane.width), 
+                            posY=np.random.uniform(0, plane.height), 
+                            movX=np.random.uniform(-speed, speed), 
+                            movY=np.random.uniform(-speed, speed)))
+    
+    # Return
+    return userArr
+     
+
 def calculateSignalStrength(user, station):
     # Distance formula
     distance = np.sqrt((station.posX - user.posX)**2 + (station.posY - user.posY)**2)

@@ -88,7 +88,7 @@ def statSimulation(plane, stationArr, userArr, runTime):
         updatePositions(plane, userArr)
         if i % 15:
             nodes.calculateAssociations(userArr, stationArr)
-        plt.pause(0.01)
+        plt.pause(0.0001)
     plt.show()
     
     

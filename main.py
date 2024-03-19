@@ -16,22 +16,18 @@ def main():
     '''
     
     # Generating a New Plane
-    plane = nodes.Plane(height=200, width=200)
+    plane = nodes.Plane(height=1000, width=1000)
     
     # Generating New Stations
-    stationArr = [nodes.Station(1, posX=50, posY=50, range=40),
-                  nodes.Station(2, posX=100, posY=100, range=200),
-                  nodes.Station(3, posX=150, posY=150, range=40)
+    stationArr = [nodes.Station(1, posX=500, posY=300, range=50),
+                  nodes.Station(2, posX=500, posY=500, range=500),
+                  nodes.Station(3, posX=750, posY=750, range=50),
+                  nodes.Station(4, posX=250, posY=750, range=50),
+                  nodes.Station(5, posX=400, posY=400, range=50),
                   ]
     
     # Generating New Users
-    maxSpeed = 3
-    userArr = [nodes.User(1, posX=20, posY=25, movX=np.random.uniform(-maxSpeed, maxSpeed), movY=np.random.uniform(-maxSpeed, maxSpeed)),
-               nodes.User(2, posX=40, posY=50, movX=np.random.uniform(-maxSpeed, maxSpeed), movY=np.random.uniform(-maxSpeed, maxSpeed)),
-               nodes.User(3, posX=60, posY=70, movX=np.random.uniform(-maxSpeed, maxSpeed), movY=np.random.uniform(-maxSpeed, maxSpeed)),
-               nodes.User(4, posX=80, posY=80, movX=np.random.uniform(-maxSpeed, maxSpeed), movY=np.random.uniform(-maxSpeed, maxSpeed)),
-               nodes.User(5, posX=40, posY=65, movX=np.random.uniform(-maxSpeed, maxSpeed), movY=np.random.uniform(-maxSpeed, maxSpeed))
-                ]
+    userArr = nodes.generateUsers(plane, numberOfUsers=12, speed=2)
     
     # Create User/Station Associations
     nodes.calculateAssociations(userArr, stationArr)
@@ -44,7 +40,7 @@ def main():
     
     
     # Run Simulation
-    graph.statSimulation(plane, stationArr, userArr, runTime=300)
+    graph.statSimulation(plane, stationArr, userArr, runTime=7200)
     
     '''     
     # Pull User IDs and Traffic from all Stations
