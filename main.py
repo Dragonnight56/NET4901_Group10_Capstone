@@ -22,7 +22,7 @@ def main():
                   ]
     
     # Generating New Users
-    userArr = nodes.generateUsers(plane, numberOfUsers=6, speed=3)
+    userArr = nodes.generateUsers(plane, numberOfUsers=20, speed=3)
     
     # Create Initial User/Station Associations
     nodes.calculateAssociations(userArr, stationArr)

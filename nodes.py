@@ -7,10 +7,12 @@ class Plane:
         self.height = height
         self.width = width
 
+
 class Station:
     # This defines the base station node
-    def __init__(self, stationID, posX=0, posY=0, range=0, transmitterGain=5, transmitterPower=25, wavelength=0.07):
+    def __init__(self, stationID, posX=0, posY=0, range=0, transmitterPower=47, wavelength=0.66):
         self.stationID = stationID
+        self.state = True
         
         # Posisiton
         self.posX = posX
@@ -20,28 +22,9 @@ class Station:
         self.users = []
         
         # Physical Properties
-        self.transmitterGain = transmitterGain          # in dBm
-        self.transmitterPower = transmitterPower        # in dBm
-        self.wavelength = wavelength                    # in m
-        self.range = range
-        #self.range = self.calcMaxRange()               # in m
-   
-    def calcMaxRange(self, Gr=1, minQuality=-80):
-        # Uses RSSI db, min -80db
-        # TODO: Currently Busted
-        firstTerm = self.transmitterGain * Gr * np.power(self.wavelength, 2)
-        print(f"First Term:\t{firstTerm}")
-        
-        secondTerm = np.power(4*np.pi, 2)
-        print(f"Second Term:\t{secondTerm}")
-        
-        thirdTerm = self.transmitterPower / minQuality
-        print(f"Third Term:\t{thirdTerm}")
-        
-        result = np.sqrt((firstTerm/secondTerm) * -thirdTerm)
-        print(f"Max Range:\t{result}")
-        
-        self.range = result
+        self.transmitterPower = transmitterPower        # in 
+        self.wavelength = wavelength                    # in meters
+        self.range = range                              # in meters
 
 
 class User:
@@ -63,6 +46,7 @@ class User:
         self.traffic = np.random.uniform(8, 64)
         #self.traffic = traffic.generateTraffic(seed=seed)
      
+
 def generateUsers(plane, numberOfUsers, speed):
     userArr = []
     
@@ -80,17 +64,15 @@ def generateUsers(plane, numberOfUsers, speed):
 def calcDistance(node1, node2):
     return np.sqrt((node1.posX - node2.posX)**2 + (node1.posY - node2.posY)**2)
 
-def calculateSignalStrength(user, station):
+def calculateLoss(station, user):
     # Distance formula
     distance = calcDistance(user, station)
         
-    # Free Space Path Loss (((4pi*r)/Lam)^2)
-    loss = ((4*np.pi*distance) / station.wavelength)**2
+    # Free Space Path Loss
+    loss = -10*np.log10((station.wavelength / (4*np.pi*distance))**2)
     
-    # Relative RSSI (Pt + Gt - L)
-    rssi =  station.transmitterGain + station.transmitterPower - loss
-    
-    return rssi 
+    # Return Loss
+    return loss 
           
 def calculateAssociations(userArr, stationArr):
     # For Every User
@@ -133,9 +115,13 @@ def calculateAssociations(userArr, stationArr):
                 # Destroy Old Association
                 currentAssociation.users.remove(user)
                 
-            
-        
-
+if __name__ == "__main__":
+    # Temp Variables
+    station = Station(1, posX=0, posY=0, range=1000)    # Station @ [0,0]
+    user = User(1, posX=10, posY=0)                     # User
+    
+    # Testing Calculations
+    print(f"Loss = {calculateLoss(station, user)}")
             
     
 
