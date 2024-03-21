@@ -33,21 +33,21 @@ def GraphingPvsT(time=0, power=1, dataReq=1):
         
 # This function is used to graph the current situation from the data provided
 # It takes the plane object, as well as the station and user objects (both in the form of arrays) as input
-def plotFrame(plane, stationArr, userArr):
+def plotFrame(stationArr, userArr):
     # Add the Stations
     # TODO: Add Tapered Effect to the circle, indicating the loss of signal strength over distance
     for station in stationArr:
-        plt.scatter(station.posX, station.posY, color='black', marker='o')
+        plt.scatter(station.posX, station.posY, color='black', marker='o', label=None)
         plt.gca().add_patch(plt.Circle((station.posX, station.posY), station.range, color='gray', alpha=0.2))
     
     # Add the Users
     for user in userArr:
-        plt.scatter(user.posX, user.posY, color='blue', marker='o')
+        plt.scatter(user.posX, user.posY, color='blue', marker='o', label=None)
     
     # Plot Associations
     for station in stationArr:
         for user in station.users:
-            plt.plot([user.posX, station.posX], [user.posY, station.posY], color='green')
+            plt.plot([user.posX, station.posX], [user.posY, station.posY], color='green', label=None)
     
     # Return
     plt.grid(True)
@@ -76,7 +76,7 @@ def updatePositions(plane, userArr):
 
 def statSimulation(plane, stationArr, userArr, runTime):
     # Initialize figure
-    plt.figure(figsize=(8,8))
+    plt.figure(figsize=(6,6))
     
     # Running Loop
     for i in range(runTime):
@@ -84,11 +84,17 @@ def statSimulation(plane, stationArr, userArr, runTime):
         plt.xlim(0, plane.width)
         plt.ylim(0, plane.height)
         
-        plotFrame(plane, stationArr, userArr)
+        # Add Time Label
+        timeLabel = plt.plot([],[], label=f"Time: {i}", )
+        plt.legend(loc='lower right')
+        
+        # Update Frames
+        plotFrame(stationArr, userArr)
         updatePositions(plane, userArr)
         if i % 15:
             nodes.calculateAssociations(userArr, stationArr)
         plt.pause(0.0001)
+        
     plt.show()
     
     
