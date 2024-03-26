@@ -2,6 +2,7 @@ import graphs as graph
 import matplotlib.pyplot as plt
 import nodes
 import numpy as np
+import csv
 
 def main():
 
@@ -86,7 +87,15 @@ def main():
         # P_t[W] = target SNR * loss
             
     # TODO: After every sim tick, save calculated values into CSV file for model training
-            
+    # https://www.freecodecamp.org/news/how-to-create-a-csv-file-in-python/
+    with open('train_data.csv', 'w', newline='') as file:
+        write_data = csv.writer(file)
+        fields = ["Transmitted power", "Received power (signal to noise ratio)", "Station status'"]
+        data_points = []
+
+        write_data.writerow(fields)
+        write_data.writerows(data_points)
+       
     # TODO: Feed calculated values into DL model
     
     # TODO: Have DL model gives recommendations for which cells to turn on and off (array of 0s and 1s)
