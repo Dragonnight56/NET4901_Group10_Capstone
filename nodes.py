@@ -75,9 +75,7 @@ def calculateLoss(station, user):
     # Return Loss
     return loss 
 
-# TODO: Calculate stations' transmission (signal) power (P_t) needed to meet target SNR
-        # P_t[dB] = target SNR[dB] + loss[dB]
-        # P_t[W] = target SNR * loss
+# TODO: See THE LIST
 def calculateSignalStrength():
     pass
 

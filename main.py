@@ -63,6 +63,7 @@ def main():
             # Update Topology
             if not (time % updateRate):
                 # Get Current State
+                # Comment out atm if want to test calculate signal funcs
                 state = nodes.getCurrentState(stationArr, minSignal=-40, time=time)
                 
                 # Get AI Reccomendations
@@ -83,12 +84,15 @@ def main():
         plt.show()
     
     # THE LIST
-    # TODO: Calculate stations' transmission (signal) power (P_t) needed to meet target SNR
-        # P_t[dB] = target SNR[dB] + loss[dB]
-        # P_t[W] = target SNR * loss
-            
-    # TODO: After every sim tick, save calculated values into CSV file for model training
-    # https://www.freecodecamp.org/news/how-to-create-a-csv-file-in-python/
+    # TODO: Calculate received power for users'
+        # See Dr. Gao's email on Loss (see textbook link)
+        # Assume constand transmission power based on values found in Google Doc / Discord chat
+
+    # TODO: Create "master" list of all users' coordinates
+        
+    # TODO: Calculate connection/cell density
+        
+    # TODO: Add cell density in CSV as column for each station
        
     # TODO: Feed calculated values into DL model
     
