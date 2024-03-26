@@ -11,7 +11,7 @@ class Station:
     # This defines the base station node
     def __init__(self, stationID, posX=0, posY=0, range=0, transmitterPower=47, wavelength=0.66):
         self.stationID = stationID
-        self.state = True
+        self.state = 3              # Off, T.Off, T.ON, ON
         
         # Posisiton
         self.posX = posX
@@ -104,7 +104,7 @@ def calculateAssociations(userArr, stationArr):
             distance = calcDistance(user, station)
             
             # See if this distance is in range and better than the candidate
-            if distance <= station.range and distance < candidateDistance:
+            if (distance <= station.range) and (distance < candidateDistance) and (station.state > 1):
                 candidate = station
                 candidateDistance = distance            
             
@@ -127,6 +127,45 @@ def calculateAssociations(userArr, stationArr):
                 candidate.users.append(user)
                 # Destroy Old Association
                 currentAssociation.users.remove(user)
+
+def getCurrentState(stationArr, minSignal, time):
+    # Declarations
+    state = []
+    power = 0
+    mbs = stationArr[0]
+    
+    for station in stationArr:
+        # Collect Power
+        if station.state > 1: power = power + station.transmitterPower
+        
+        # Add Row
+        state.append([time, 
+                     minSignal, 
+                     0,
+                     station.stationID,
+                     len(station.users), 
+                     calculateSignalStrength(mbs, station),
+                     station.state
+                     ])
+    
+    # Add Power To Rows
+    for row in state:
+        row[2] = power
+    
+    # Return
+    # FORMAT: Row > Time, Min. Signal, Power, Users, Cur. Signal, State
+    return state
+
+def applySuggestions(stationArr, stateArr):
+    # Cycle Through Stations
+    for index, station in enumerate(stationArr):
+        match stateArr[index]:
+            case 0:
+                if (station.state == 3): station.state = 2                              # Move to Transition OFF
+                elif (station.state == 2 or station.state == 1): station.state = 0      # Move to True OFF
+            case 1:
+                if (station.state == 0): station.state = 1                              # Move to Transition ON
+                elif (station.state == 1 or station.state == 2): station.state = 3      # Move to True ON
                 
 if __name__ == "__main__":
     # Temp Variables
