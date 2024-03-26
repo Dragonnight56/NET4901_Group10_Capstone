@@ -1,6 +1,13 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
+"""
+----------------
+!!! ON PAUSE !!!
+----------------
+
+"""
+
 def generateTraffic(
         seed=3,
         trafficStyle=0,             # Defines the Distribution of Data      < There's a better way to do this

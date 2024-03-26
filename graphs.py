@@ -3,6 +3,8 @@ import matplotlib.pyplot as plt
 import nodes
 import numpy as np
 
+
+
 # graphing power vs time
 def GraphingPvsT(time=0, power=1, dataReq=1):
     # Time Frame to Graph in sec (1 sec, 60 sec, 3600 sec, etc.)
