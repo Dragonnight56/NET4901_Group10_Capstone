@@ -83,24 +83,12 @@ def main():
         plt.show()
     
     # THE LIST
-    # TODO: Change this to users send signal to (interference) noise ratio (SNR / SINR) it wants the station to target
-        # SNR is the received power (from station point of view)
-
-    # TODO: Calculate loss between stations and users
-    
     # TODO: Calculate stations' transmission (signal) power (P_t) needed to meet target SNR
         # P_t[dB] = target SNR[dB] + loss[dB]
         # P_t[W] = target SNR * loss
             
     # TODO: After every sim tick, save calculated values into CSV file for model training
     # https://www.freecodecamp.org/news/how-to-create-a-csv-file-in-python/
-    with open('train_data.csv', 'w', newline='') as file:
-        write_data = csv.writer(file)
-        fields = ["Transmitted power", "Received power (signal to noise ratio)", "Station status'"]
-        data_points = []
-
-        write_data.writerow(fields)
-        write_data.writerow(data_points)
        
     # TODO: Feed calculated values into DL model
     

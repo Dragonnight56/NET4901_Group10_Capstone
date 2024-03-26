@@ -28,7 +28,7 @@ class Station:
 
 class User:
     # This defines the User node
-    def __init__(self, userID, posX=0, posY=0, movX=0, movY=0):
+    def __init__(self, userID, posX=0, posY=0, movX=0, movY=0, targ_Recv_Signal=np.random.uniform(-40, -20)):
         self.userID = userID
         
         # Positional
@@ -41,13 +41,8 @@ class User:
         self.traffic = -1
 
         # Target Received Signal Strength
-        self.targ_Recv_Signal = np.random.uniform(10, 15)
-
-    # TODO: Change this to users send signal to (interference) noise ratio (SNR / SINR) it wants the station to target
-        # SNR is the received power (from station point of view)
-    def generateTargetReceivedSignal(self, req_Recv_Signal):
-        self.targ_Recv_Signal = req_Recv_Signal
-
+        self.targ_Recv_Signal = targ_Recv_Signal
+    
     # This is used to create more/different traffic for a User
     def generateTraffic(self, seed):
         self.traffic = np.random.uniform(8, 64)
