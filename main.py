@@ -65,8 +65,6 @@ def main():
         
     plt.show()
     
-    
-    
     # THE LIST
     # TODO: Change this to users send signal to (interference) noise ratio (SNR / SINR) it wants the station to target
         # SNR is the received power (from station point of view)
@@ -85,7 +83,7 @@ def main():
         data_points = []
 
         write_data.writerow(fields)
-        write_data.writerows(data_points)
+        write_data.writerow(data_points)
        
     # TODO: Feed calculated values into DL model
     
