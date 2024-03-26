@@ -40,20 +40,19 @@ class User:
         # Traffic
         self.traffic = -1
 
-        # Request Signal Strength
-        self.targ_Signal = np.random.uniform(10, 15)
+        # Target Received Signal Strength
+        self.targ_Recv_Signal = np.random.uniform(10, 15)
 
     # TODO: Change this to users send signal to (interference) noise ratio (SNR / SINR) it wants the station to target
         # SNR is the received power (from station point of view)
-    def generateTargetSignal(self, req_Signal):
-        self.targ_Signal = req_Signal
+    def generateTargetReceivedSignal(self, req_Recv_Signal):
+        self.targ_Recv_Signal = req_Recv_Signal
 
     # This is used to create more/different traffic for a User
     def generateTraffic(self, seed):
         self.traffic = np.random.uniform(8, 64)
         #self.traffic = traffic.generateTraffic(seed=seed)
      
-
 def generateUsers(plane, numberOfUsers, speed):
     userArr = []
     
