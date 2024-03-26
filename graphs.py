@@ -74,32 +74,7 @@ def updatePositions(plane, userArr):
             user.posY = newPosY
         else:
             user.movY = -1*user.movY
-            user.posY = user.posY + user.movY
-
-def statSimulation(plane, stationArr, userArr, runTime):
-    # Initialize figure
-    plt.figure(figsize=(6,6))
-    
-    # Running Loop
-    for i in range(runTime):
-        plt.clf()
-        plt.xlim(0, plane.width)
-        plt.ylim(0, plane.height)
-        
-        # Add Time Label
-        timeLabel = plt.plot([],[], label=f"Time: {i}", )
-        plt.legend(loc='lower right')
-        
-        # Update Frames
-        plotFrame(stationArr, userArr)
-        updatePositions(plane, userArr)
-        if i % 15:
-            nodes.calculateAssociations(userArr, stationArr)
-        plt.pause(0.0001)
-        
-    plt.show()
-    
-    
+            user.posY = user.posY + user.movY    
     
 if __name__ == "__main__":
     GraphingPvsT(1, 1, 1)

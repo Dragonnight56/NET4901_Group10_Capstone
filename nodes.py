@@ -1,5 +1,4 @@
 import numpy as np
-import gen_user_requests as traffic
 
 class Plane:
     # This defines the 2D plane that all our Nodes exist on
@@ -73,7 +72,10 @@ def calculateLoss(station, user):
     
     # Return Loss
     return loss 
-          
+
+def calculateSignalStrength():
+    pass
+
 def calculateAssociations(userArr, stationArr):
     # For Every User
     for user in userArr:
