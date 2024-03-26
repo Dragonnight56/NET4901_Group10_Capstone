@@ -18,10 +18,10 @@ def main():
     # Generating New Stations
         # TODO: Setup inital transmission power
     stationArr = [nodes.Station(1, posX=500, posY=500, range=500, transmitterPower=47),          # Macro Station
-                  nodes.Station(2, posX=500, posY=300, range=50, transmitterPower=47),           # Pico Station
-                  nodes.Station(3, posX=750, posY=750, range=50, transmitterPower=47),           # Pico Station
-                  nodes.Station(4, posX=250, posY=750, range=50, transmitterPower=47),           # Pico Station
-                  nodes.Station(5, posX=400, posY=400, range=50, transmitterPower=47),           # Pico Station
+                  nodes.Station(2, posX=500, posY=300, range=50, transmitterPower=30),           # Pico Station
+                  nodes.Station(3, posX=750, posY=750, range=50, transmitterPower=30),           # Pico Station
+                  nodes.Station(4, posX=250, posY=750, range=50, transmitterPower=30),           # Pico Station
+                  nodes.Station(5, posX=400, posY=400, range=50, transmitterPower=30),           # Pico Station
                   ]
     
     # Generating New Users
@@ -57,6 +57,15 @@ def main():
         
         # Update Topology
         if time % updateRate:
+            # Get Current State
+            state = nodes.getCurrentState(stationArr)
+            
+            # Get AI Reccomendations
+            
+            # Implement AI Reccomendations
+            
+            # Write Current State to CSV
+            
             pass
         
         # Wait a tick

@@ -116,6 +116,17 @@ def calculateAssociations(userArr, stationArr):
                 candidate.users.append(user)
                 # Destroy Old Association
                 currentAssociation.users.remove(user)
+
+def getCurrentState(stationArr):
+    # Declarations
+    state = []
+    
+    # Gather Info
+    
+    
+    # Return
+    return state
+
                 
 if __name__ == "__main__":
     # Temp Variables
