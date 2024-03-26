@@ -1,6 +1,11 @@
 import math
 
-# ON PAUSE
+"""
+----------------
+!!! ON PAUSE !!!
+----------------
+
+"""
 
 def channel_for_user(channels, symbols, resource_element_size, users_data_req):
     """
