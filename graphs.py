@@ -40,7 +40,7 @@ def plotFrame(stationArr, userArr):
     # TODO: Add Tapered Effect to the circle, indicating the loss of signal strength over distance
     for station in stationArr:
         plt.scatter(station.posX, station.posY, color='black', marker='o', label=None)
-        if (station.state > 1):
+        if (station.state == 1):
             plt.gca().add_patch(plt.Circle((station.posX, station.posY), station.range, color='gray', alpha=0.2))
     
     # Add the Users

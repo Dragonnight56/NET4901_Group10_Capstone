@@ -10,9 +10,9 @@ class Plane:
 
 class Station:
     # This defines the base station node
-    def __init__(self, stationID, posX=0, posY=0, range=0, transmitterPower=47, wavelength=0.66):
+    def __init__(self, stationID, posX=0, posY=0, range=0, transmitterPower=47, gain=1, wavelength=0.66, nodeStrength=0):
         self.stationID = stationID
-        self.state = 3  # Off, T.Off, T.ON, ON
+        self.state = 1
 
         # Posisiton
         self.posX = posX
@@ -23,8 +23,10 @@ class Station:
 
         # Physical Properties
         self.transmitterPower = transmitterPower  # in
+        self.gain = gain
         self.wavelength = wavelength  # in meters
         self.range = range  # in meters
+        self.nodeStrength = nodeStrength
 
 
 class User:
@@ -66,23 +68,41 @@ def generateUsers(plane, numberOfUsers, speed):
 
 
 def calcDistance(node1, node2):
+    if node1==node2:
+        return 1
     return np.sqrt((node1.posX - node2.posX) ** 2 + (node1.posY - node2.posY) ** 2)
 
 
-def calculateLoss(station, user):
+def calculateLoss(transmitter, reciever):
     # Distance formula
-    distance = calcDistance(user, station)
+    distance = calcDistance(transmitter, reciever)
 
     # Free Space Path Loss
-    loss = -10 * np.log10((station.wavelength / (4 * np.pi * distance)) ** 2)
+    loss = -10 * np.log10((transmitter.wavelength / (4 * np.pi * distance)) ** 2)
 
     # Return Loss
     return loss
 
 
-# TODO: See THE LIST
-def calculateSignalStrength():
-    pass
+def calculateRecievedSignalStrength(transmitter, reciever):
+    return transmitter.transmitterPower + transmitter.gain - calculateLoss(transmitter, reciever)
+
+
+def findUsersInRange(station, userArr):
+    usersInRange = 0
+    
+    for user in userArr:
+        if calcDistance(station, user) < station.range:
+            usersInRange = usersInRange + 1
+            
+    return usersInRange
+        
+        
+def calculateCellStregnth(stationArr):
+    stationArr[0].nodeStrength = 1
+    
+    for station in stationArr[1:]:
+        station.nodeStrength = calculateRecievedSignalStrength(stationArr[0], station)
 
 
 def calculateAssociations(userArr, stationArr):
@@ -99,14 +119,14 @@ def calculateAssociations(userArr, stationArr):
                 currentAssociation = station
 
             # Find the Distance
-            distance = calcDistance(user, station)
+            distance = calcDistance(station, user)
 
             # See if this distance is in range and better than the candidate
-            if (distance <= station.range) and (distance < candidateDistance) and (station.state > 1):
+            if (distance <= station.range) and (distance < candidateDistance) and (station.state == 1):
                 candidate = station
                 candidateDistance = distance
 
-                # If Candidate is not Current Association
+        # If Candidate is not Current Association
         if not (candidate == currentAssociation):
 
             # No New Candidate
@@ -126,8 +146,25 @@ def calculateAssociations(userArr, stationArr):
                 # Destroy Old Association
                 currentAssociation.users.remove(user)
 
+# TODO: Add Inter-Station buffer distance to prevent stations spawning on top of each other
+def createPicoStations(plane, numberOfStations, buffer):
+    stations = []
+    
+    for num in range(numberOfStations):
+        # Create Station
+        stations.append(Station(num+2, 
+                                posX=np.random.randint(buffer, plane.width-buffer), 
+                                posY=np.random.randint(buffer, plane.height-buffer), 
+                                range=50, 
+                                transmitterPower=10))
+        
+        
+    return stations
+        
+        
+    
 
-def getCurrentState(stationArr, minSignal, time):
+def getCurrentState(stationArr, userArr, minSignal, time):
     # Declarations
     state = []
     power = 0
@@ -135,26 +172,17 @@ def getCurrentState(stationArr, minSignal, time):
 
     for station in stationArr:
         # Collect Power
-        if station.state > 1: power = power + station.transmitterPower
-
-        # Calculate the area covered by the station
-        area_covered = np.pi * (station.range ** 2)  # Area = π * range^2
-
-        if area_covered > 0:
-            # Calculate cell density as number of users within station's coverage area divided by the area
-            cell_density = len(station.users) / area_covered
-        else:
-            cell_density = 0
+        if station.state == 1: power = power + station.transmitterPower
 
         # Add Row
         state.append([time,
                       minSignal,
                       0,
                       station.stationID,
+                      findUsersInRange(station, userArr),
                       len(station.users),
-                      calculateSignalStrength(mbs, station),
+                      station.nodeStrength,
                       station.state,
-                      cell_density
                       ])
 
     # Add Power To Rows
@@ -162,30 +190,37 @@ def getCurrentState(stationArr, minSignal, time):
         row[2] = power
 
     # Return
-    # FORMAT: Row > Time, Min. Signal, Power, Users, Cur. Signal, State
     return state
 
 
 def applySuggestions(stationArr, stateArr):
     # Cycle Through Stations
     for index, station in enumerate(stationArr):
-        match stateArr[index]:
-            case 0:
-                if (station.state == 3):
-                    station.state = 2  # Move to Transition OFF
-                elif (station.state == 2 or station.state == 1):
-                    station.state = 0  # Move to True OFF
-            case 1:
-                if (station.state == 0):
-                    station.state = 1  # Move to Transition ON
-                elif (station.state == 1 or station.state == 2):
-                    station.state = 3  # Move to True ON
+        # Apply State
+        station.state = stateArr[index]
+
+
+def thresholdSuggestion(stationArr, userArr, threshold):
+    state = [1]
+    
+    # Skip the MBS
+    for station in stationArr[1:]:
+        if findUsersInRange(station, userArr) >= threshold:
+            state.append(1)
+        else:
+            state.append(0)
+    
+    return state
 
 
 if __name__ == "__main__":
     # Temp Variables
-    station = Station(1, posX=0, posY=0, range=1000)  # Station @ [0,0]
-    user = User(1, posX=10, posY=0)  # User
+    plane = Plane(100, 100)
+    station = Station(1, posX=50, posY=50, range=25)  # Station @ [0,0]
+    userArr = [User(1, posX=40, posY=40), 
+               User(2, posX=0, posY=0), 
+               User(3, posX=60, posY=60)]  # User
 
     # Testing Calculations
-    print(f"Loss = {calculateLoss(station, user)}")
+    for user in userArr:
+        print(f"User {user.userID} RSS = {calculateRecievedSignalStrength(station, user)}")
