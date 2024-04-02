@@ -160,8 +160,6 @@ def createPicoStations(plane, numberOfStations, buffer):
         
         
     return stations
-        
-        
     
 
 def getCurrentState(stationArr, userArr, minSignal, time):

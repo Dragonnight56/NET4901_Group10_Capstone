@@ -12,17 +12,18 @@ def main():
     runTime = 61  # Defines how long to run the simulation in seconds
     pollingRate = 10  # Defines how often the Simulation attempts to Reassociate Users
     updateRate = 30  # Defines how often the AI will update the topology
+    fileName = "training_data.csv"
 
     # Generating a New Plane
-    plane = nodes.Plane(height=2000, width=2000)
+    plane = nodes.Plane(height=1000, width=1000)
 
     # Generating New Stations
     # REMINDER  : Macro Basestation Must be the First Entry in the List
-    stationArr = [nodes.Station(1, posX=1000, posY=1000, range=1000, transmitterPower=34)]  # Macro Station
+    stationArr = [nodes.Station(1, posX=500, posY=500, range=750, transmitterPower=34)]  # Macro Station
     stationArr = stationArr + nodes.createPicoStations(plane, 10, buffer=20)
 
     # Generating New Users
-    userArr = nodes.generateUsers(plane, numberOfUsers=50, speed=4)
+    userArr = nodes.generateUsers(plane, numberOfUsers=200, speed=4)
 
     # Create Initial User/Station Associations
     nodes.calculateAssociations(userArr, stationArr)
@@ -34,10 +35,11 @@ def main():
    
    
     # --- Simulation Running Loop ---
-    with open("training_data.csv", "a", newline="") as file:
+    with open(fileName, "a", newline="") as file:
         csvWriter = csv.writer(file)
         fields = ["Time", "Minimum Signal", "Power Usage", "StationID", "Users in Range", "numberOfUsers", "signalStrength", "State"]
         csvWriter.writerow(fields)
+        file.close()
 
         for time in range(runTime):
             plt.clf()
@@ -71,9 +73,12 @@ def main():
                 nodes.applySuggestions(stationArr=stationArr, stateArr=suggestion)
 
                 # Write Current State to CSV
-                for row in state:
-                    print(row)
-                    csvWriter.writerow(row)
+                with open(fileName, "a", newline="") as file:
+                    csvWriter = csv.writer(file)
+                    for row in state:
+                        print(row)
+                        csvWriter.writerow(row)
+                    file.close()
 
             # Wait a tick
             plt.pause(0.0001)
@@ -84,8 +89,6 @@ def main():
     # TODO: Simulation isn't actively writing to the CSV file, only after the simulation finishes.
     #       Not sure why, to replicate you can kill the simulation mid-runtime and check the csv file.
     
-    # TODO: Various Fixes to the Threshold Method
-
     # TODO: Feed calculated values into DL model
 
     # TODO: Have DL model gives recommendations for which cells to turn on and off (array of 0s and 1s)
