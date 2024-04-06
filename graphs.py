@@ -28,9 +28,9 @@ def GraphingPvsT(time=0, power=1, dataReq=1):
         
     # Plotting
     # TODO: Fix this so that the colors show correctly
-    plt.bar(np.arange(1, time+1), newArr, color='red')                      # Ideal Scenario
-    plt.bar(np.arange(1, time+1), power, color='blue')                      # Service Coverage Losses
-    plt.plot(np.arange(1, time+1), power, color='green')                    # Actual Data Rate
+    #plt.plot(np.arange(1, time+1), newArr, color='red')                      # Ideal Scenario
+    #plt.plot(np.arange(1, time+1), power, color='blue')                      # Service Coverage Losses
+    #plt.plot(np.arange(1, time+1), power, color='green')                    # Actual Data Rate
     plt.show()
         
 # This function is used to graph the current situation from the data provided
@@ -50,7 +50,15 @@ def plotFrame(stationArr, userArr):
     # Plot Associations
     for station in stationArr:
         for user in station.users:
-            plt.plot([user.posX, station.posX], [user.posY, station.posY], color='green', label=None)
+            #all users have the same recv signal
+            print("Print user : " + str(user.userID) + " + " + str(nodes.calculateRecievedSignalStrength(station, user)))
+            if(nodes.calculateRecievedSignalStrength(station, user) > -40):
+                plt.plot([user.posX, station.posX], [user.posY, station.posY], color='green', label=None)
+            elif(nodes.calculateRecievedSignalStrength(station, user) < -40 and nodes.calculateRecievedSignalStrength(station, user) > -44 ):
+                plt.plot([user.posX, station.posX], [user.posY, station.posY], color='yellow', label=None)
+            else:
+                plt.plot([user.posX, station.posX], [user.posY, station.posY], color='red', label=None)
+
     
     # Return
     plt.grid(True)
