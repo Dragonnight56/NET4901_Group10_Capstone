@@ -48,17 +48,20 @@ def plotFrame(stationArr, userArr):
         plt.scatter(user.posX, user.posY, color='blue', marker='o', label=None)
     
     # Plot Associations
+    test = []
     for station in stationArr:
         for user in station.users:
             #all users have the same recv signal
-            print("Print user : " + str(user.userID) + " + " + str(nodes.calculateRecievedSignalStrength(station, user)))
-            if(nodes.calculateRecievedSignalStrength(station, user) > -40):
+            test.append(nodes.calculateRecievedSignalPower(station, user))
+            if(nodes.calculateRecievedSignalPower(station, user) > -65):
                 plt.plot([user.posX, station.posX], [user.posY, station.posY], color='green', label=None)
-            elif(nodes.calculateRecievedSignalStrength(station, user) < -40 and nodes.calculateRecievedSignalStrength(station, user) > -44 ):
+            elif(nodes.calculateRecievedSignalPower(station, user) < -65 and nodes.calculateRecievedSignalPower(station, user) > -70 ):
                 plt.plot([user.posX, station.posX], [user.posY, station.posY], color='yellow', label=None)
             else:
                 plt.plot([user.posX, station.posX], [user.posY, station.posY], color='red', label=None)
 
+    print(f"MAX = {np.max(test)}")
+    print(f"MIN = {np.min(test)}")
     
     # Return
     plt.grid(True)

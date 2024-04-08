@@ -10,7 +10,7 @@ class Plane:
 
 class Station:
     # This defines the base station node
-    def __init__(self, stationID, posX=0, posY=0, range=0, transmitterPower=47, gain=1, wavelength=0.66, nodeStrength=0):
+    def __init__(self, stationID, posX=0, posY=0, range=0, transmitterPower=37, gain=1, wavelength=0.0066, nodeStrength=0):
         self.stationID = stationID
         self.state = 1
 
@@ -84,8 +84,9 @@ def calculateLoss(transmitter, reciever):
     return loss
 
 
-def calculateRecievedSignalStrength(transmitter, reciever):
-    return transmitter.transmitterPower + transmitter.gain - calculateLoss(transmitter, reciever)
+def calculateRecievedSignalPower(transmitter, reciever):
+    return transmitter.transmitterPower + 10*np.log10(transmitter.gain*1) + 20*np.log10(transmitter.wavelength) - 20*np.log10(4*np.pi) - 20*np.log10(calcDistance(transmitter, reciever))
+    # return transmitter.transmitterPower + transmitter.gain - calculateLoss(transmitter, reciever)
 
 
 def findUsersInRange(station, userArr):
@@ -102,7 +103,7 @@ def calculateCellStregnth(stationArr):
     stationArr[0].nodeStrength = 1
     
     for station in stationArr[1:]:
-        station.nodeStrength = calculateRecievedSignalStrength(stationArr[0], station)
+        station.nodeStrength = calculateRecievedSignalPower(stationArr[0], station)
 
 
 def calculateAssociations(userArr, stationArr):
@@ -155,8 +156,10 @@ def createPicoStations(plane, numberOfStations, buffer):
         stations.append(Station(num+2, 
                                 posX=np.random.randint(buffer, plane.width-buffer), 
                                 posY=np.random.randint(buffer, plane.height-buffer), 
-                                range=50, 
-                                transmitterPower=10))
+                                range=500, 
+                                transmitterPower=22,
+                                wavelength=0.0547,
+                                gain=7))
         
         
     return stations
@@ -214,11 +217,14 @@ def thresholdSuggestion(stationArr, userArr, threshold):
 if __name__ == "__main__":
     # Temp Variables
     plane = Plane(100, 100)
-    station = Station(1, posX=50, posY=50, range=25)  # Station @ [0,0]
-    userArr = [User(1, posX=40, posY=40), 
-               User(2, posX=0, posY=0), 
-               User(3, posX=60, posY=60)]  # User
+    station = Station(1, posX=0, posY=50, range=50, transmitterPower=22, wavelength=0.0547, gain=7)  # Station @ [0,50], 24GHZ
+    userArr = [User(1, posX=10, posY=50), 
+               User(2, posX=25, posY=50), 
+               User(3, posX=50, posY=50),
+               User(4, posX=75, posY=50),
+               User(5, posX=100, posY=50),
+               User(6, posX=500, posY=50)]  # Users
 
-    # Testing Calculations
+    # Testing RSRP Calculations
     for user in userArr:
-        print(f"User {user.userID} RSS = {calculateRecievedSignalStrength(station, user)}")
+        print(f"User {user.userID} RSS = {calculateRecievedSignalPower(station, user):.2f} dBm")

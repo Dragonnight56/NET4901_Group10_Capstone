@@ -9,21 +9,21 @@ def main():
     # --- Setup Simulation ---
     # Basics
     plt.figure(figsize=(7, 7))  # Defines the size of the Graph
-    runTime = 61  # Defines how long to run the simulation in seconds
+    runTime = 120  # Defines how long to run the simulation in seconds
     pollingRate = 10  # Defines how often the Simulation attempts to Reassociate Users
     updateRate = 30  # Defines how often the AI will update the topology
     fileName = "training_data.csv"
 
     # Generating a New Plane
-    plane = nodes.Plane(height=1000, width=1000)
+    plane = nodes.Plane(height=2000, width=2000)
 
     # Generating New Stations
-    # REMINDER  : Macro Basestation Must be the First Entry in the List
-    stationArr = [nodes.Station(1, posX=500, posY=500, range=750, transmitterPower=34)]  # Macro Station
-    stationArr = stationArr + nodes.createPicoStations(plane, 10, buffer=20)
+    # REMINDER  : Micro Basestation Must be the First Entry in the List
+    stationArr = [nodes.Station(1, posX=1000, posY=1000, range=1200, transmitterPower=44, wavelength=0.007889, gain=7)]  # Micro Station
+    stationArr = stationArr + nodes.createPicoStations(plane, 4, buffer=20)
 
     # Generating New Users
-    userArr = nodes.generateUsers(plane, numberOfUsers=200, speed=4)
+    userArr = nodes.generateUsers(plane, numberOfUsers=50, speed=4)
 
     # Create Initial User/Station Associations
     nodes.calculateAssociations(userArr, stationArr)
@@ -86,9 +86,6 @@ def main():
             
     
     # THE LIST
-    # TODO: Simulation isn't actively writing to the CSV file, only after the simulation finishes.
-    #       Not sure why, to replicate you can kill the simulation mid-runtime and check the csv file.
-    
     # TODO: Feed calculated values into DL model
 
     # TODO: Have DL model gives recommendations for which cells to turn on and off (array of 0s and 1s)
