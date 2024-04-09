@@ -53,9 +53,9 @@ def plotFrame(stationArr, userArr):
         for user in station.users:
             #all users have the same recv signal
             test.append(nodes.calculateRecievedSignalPower(station, user))
-            if(nodes.calculateRecievedSignalPower(station, user) > -65):
+            if(nodes.calculateRecievedSignalPower(station, user) > -70):
                 plt.plot([user.posX, station.posX], [user.posY, station.posY], color='green', label=None)
-            elif(nodes.calculateRecievedSignalPower(station, user) < -65 and nodes.calculateRecievedSignalPower(station, user) > -75 ):
+            elif(nodes.calculateRecievedSignalPower(station, user) < -70 and nodes.calculateRecievedSignalPower(station, user) > -75 ):
                 plt.plot([user.posX, station.posX], [user.posY, station.posY], color='yellow', label=None)
             else:
                 plt.plot([user.posX, station.posX], [user.posY, station.posY], color='red', label=None)

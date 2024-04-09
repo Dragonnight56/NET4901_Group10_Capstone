@@ -147,20 +147,33 @@ def calculateAssociations(userArr, stationArr):
                 # Destroy Old Association
                 currentAssociation.users.remove(user)
 
+def calculateExRange(station, range):
+    # Calc distance to range
+    # Rearrange RSS Formula
+    return 500
+
 # TODO: Add Inter-Station buffer distance to prevent stations spawning on top of each other
-def createPicoStations(plane, numberOfStations, buffer):
+def createPicoStations(plane, station, numberOfStations, buffer, exRange):
     stations = []
     
     for num in range(numberOfStations):
+        flag = True
+        
+        while(flag):
+            xPos = np.random.randint(buffer, plane.width-buffer)
+            yPos = np.random.randint(buffer, plane.height-buffer)
+            # Test Against Range
+            if (calcDistance(station, Station(100, posX=xPos, posY=yPos)) > exRange):
+                flag = False
+        
         # Create Station
         stations.append(Station(num+2, 
-                                posX=np.random.randint(buffer, plane.width-buffer), 
-                                posY=np.random.randint(buffer, plane.height-buffer), 
+                                posX=xPos, 
+                                posY=yPos, 
                                 range=200, 
-                                transmitterPower=25,
+                                transmitterPower=24,
                                 wavelength=0.007889,
                                 gain=7))
-        
         
     return stations
     
