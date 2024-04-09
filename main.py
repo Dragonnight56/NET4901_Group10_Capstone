@@ -9,9 +9,9 @@ def main():
     # --- Setup Simulation ---
     # Basics
     plt.figure(figsize=(7, 7))  # Defines the size of the Graph
-    runTime = 31  # Defines how long to run the simulation in seconds
+    runTime = 241  # Defines how long to run the simulation in seconds
     pollingRate = 10  # Defines how often the Simulation attempts to Reassociate Users
-    updateRate = 10  # Defines how often the AI will update the topology
+    updateRate = 30  # Defines how often the AI will update the topology
     fileName = "training_data.csv"
 
     totalSimPower = 0
@@ -24,7 +24,7 @@ def main():
     # Generating New Stations
     # REMINDER  : Micro Basestation Must be the First Entry in the List
     stationArr = [nodes.Station(1, posX=1000, posY=1000, range=1200, transmitterPower=40, wavelength=0.007889, gain=7)]  # Micro Station
-    stationArr = stationArr + nodes.createPicoStations(plane, 5, buffer=20)
+    stationArr = stationArr + nodes.createPicoStations(plane, 10, buffer=20)
 
     # Generating New Users
     userArr = nodes.generateUsers(plane, numberOfUsers=50, speed=4)
@@ -56,6 +56,8 @@ def main():
 
             # Time Label
             plt.plot([], [], label=f"Time: {time}", )
+            plt.plot([], [], label=f"State: {' '.join(str(station.state) for station in stationArr)}")
+
             plt.legend(loc='lower right')
 
             # Update Positions
@@ -74,7 +76,6 @@ def main():
             # Update Topology
             if not (time % updateRate):
                 # Get Current State
-                # Comment out atm if want to test calculate signal funcs
                 state = nodes.getCurrentState(stationArr, userArr, minSignal=-40, time=time)
 
                 # Get AI Reccomendations
@@ -99,11 +100,12 @@ def main():
     print(simPower)
     plt.clf()
 
-    plt.xlim(0, 30)
+    plt.xlim(0, runTime)
     plt.ylim(np.min(simPower)-0.025, np.max(simPower)+0.025)
     plt.plot(simPower)
     plt.xlabel("TIME")
     plt.ylabel("POWER")
+    
     plt.show()
             
     
