@@ -112,16 +112,11 @@ def main():
             
     
     # THE LIST
-    # TODO: Feed calculated values into DL model
-
-    # TODO: Have DL model gives recommendations for which cells to turn on and off (array of 0s and 1s)
-
-    # TODO: Update topology using recommendations
+    # TODO: Redraw Station Patches Based on calcExRange
     
-    # TODO: Speed Up the Simulation
-    #           - Code Refactors
-    #           - Pre-Calculate Whatever is possible
-
+    # TODO: Change Association to be Based on Signal Strength
+    
+    # TODO: 
 
 if __name__ == "__main__":
     main()
