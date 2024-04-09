@@ -24,9 +24,9 @@ def main():
     # Generating New Stationss
     # REMINDER  : Micro Basestation Must be the First Entry in the List
     stationArr = [nodes.Station(1, posX=1000, posY=1000, range=1200, transmitterPower=42, wavelength=0.007889, gain=7)]  # Micro Station
-    exRange = nodes.calculateExRange(stationArr[0], -75)
+    exRange = nodes.calculateExRange(stationArr[0], -70)
     
-    stationArr = stationArr + nodes.createPicoStations(plane=plane, station=stationArr[0], numberOfStations=10, buffer=20, exRange=exRange)
+    stationArr = stationArr + nodes.createPicoStations(plane=plane, station=stationArr[0], numberOfStations=10, buffer=30, exRange=exRange)
 
     # Generating New Users
     userArr = nodes.generateUsers(plane, numberOfUsers=50, speed=4)
