@@ -149,8 +149,8 @@ def calculateAssociations(userArr, stationArr):
 
 def calculateExRange(station, range):
     # Calc distance to range
-    # Rearrange RSS Formula
-    return 500
+    # Rearrange RSS Formulas
+    return ((range - station.transmitterPower - 10*np.log10(station.gain*1) - 20*np.log10(station.wavelength) + 20*np.log10(4*np.pi)) / -20)**10
 
 # TODO: Add Inter-Station buffer distance to prevent stations spawning on top of each other
 def createPicoStations(plane, station, numberOfStations, buffer, exRange):
