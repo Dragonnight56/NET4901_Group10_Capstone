@@ -156,9 +156,9 @@ def createPicoStations(plane, numberOfStations, buffer):
         stations.append(Station(num+2, 
                                 posX=np.random.randint(buffer, plane.width-buffer), 
                                 posY=np.random.randint(buffer, plane.height-buffer), 
-                                range=500, 
-                                transmitterPower=22,
-                                wavelength=0.0547,
+                                range=200, 
+                                transmitterPower=25,
+                                wavelength=0.007889,
                                 gain=7))
         
         

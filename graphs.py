@@ -55,7 +55,7 @@ def plotFrame(stationArr, userArr):
             test.append(nodes.calculateRecievedSignalPower(station, user))
             if(nodes.calculateRecievedSignalPower(station, user) > -65):
                 plt.plot([user.posX, station.posX], [user.posY, station.posY], color='green', label=None)
-            elif(nodes.calculateRecievedSignalPower(station, user) < -65 and nodes.calculateRecievedSignalPower(station, user) > -70 ):
+            elif(nodes.calculateRecievedSignalPower(station, user) < -65 and nodes.calculateRecievedSignalPower(station, user) > -75 ):
                 plt.plot([user.posX, station.posX], [user.posY, station.posY], color='yellow', label=None)
             else:
                 plt.plot([user.posX, station.posX], [user.posY, station.posY], color='red', label=None)

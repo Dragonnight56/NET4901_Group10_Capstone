@@ -9,7 +9,7 @@ def main():
     # --- Setup Simulation ---
     # Basics
     plt.figure(figsize=(7, 7))  # Defines the size of the Graph
-    runTime = 120  # Defines how long to run the simulation in seconds
+    runTime = 31  # Defines how long to run the simulation in seconds
     pollingRate = 10  # Defines how often the Simulation attempts to Reassociate Users
     updateRate = 30  # Defines how often the AI will update the topology
     fileName = "training_data.csv"
@@ -19,8 +19,8 @@ def main():
 
     # Generating New Stations
     # REMINDER  : Micro Basestation Must be the First Entry in the List
-    stationArr = [nodes.Station(1, posX=1000, posY=1000, range=1200, transmitterPower=44, wavelength=0.007889, gain=7)]  # Micro Station
-    stationArr = stationArr + nodes.createPicoStations(plane, 4, buffer=20)
+    stationArr = [nodes.Station(1, posX=1000, posY=1000, range=1200, transmitterPower=40, wavelength=0.007889, gain=7)]  # Micro Station
+    stationArr = stationArr + nodes.createPicoStations(plane, 10, buffer=20)
 
     # Generating New Users
     userArr = nodes.generateUsers(plane, numberOfUsers=50, speed=4)
@@ -82,7 +82,8 @@ def main():
 
             # Wait a tick
             plt.pause(0.0001)
-            
+    
+    
             
     
     # THE LIST
