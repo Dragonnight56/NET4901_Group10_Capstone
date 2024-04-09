@@ -87,6 +87,24 @@ def updatePositions(plane, userArr):
         else:
             user.movY = -1*user.movY
             user.posY = user.posY + user.movY    
+
+
+def getNetworkPower(stationArr):
+    totalNetworkPower = 0
+    time = 0
+    for station in stationArr:
+        print(station.state)
+        ##State = multiply 0 
+
+        time += 1
+        Watts = 10**((station.transmitterPower-30)/10)
+        StationPower = station.state * (Watts + (len(station.users) * 0.001))
+        totalNetworkPower += StationPower
+        print("Network Power at " + str(time) + " = " + str(Watts))
+
+        print("Network Power at " + str(time) + " = " + str(StationPower))
+
+    return totalNetworkPower
     
 if __name__ == "__main__":
     GraphingPvsT(1, 1, 1)

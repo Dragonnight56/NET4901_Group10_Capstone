@@ -11,8 +11,12 @@ def main():
     plt.figure(figsize=(7, 7))  # Defines the size of the Graph
     runTime = 31  # Defines how long to run the simulation in seconds
     pollingRate = 10  # Defines how often the Simulation attempts to Reassociate Users
-    updateRate = 30  # Defines how often the AI will update the topology
+    updateRate = 10  # Defines how often the AI will update the topology
     fileName = "training_data.csv"
+
+    totalSimPower = 0
+    simPower = []
+   
 
     # Generating a New Plane
     plane = nodes.Plane(height=2000, width=2000)
@@ -20,13 +24,17 @@ def main():
     # Generating New Stations
     # REMINDER  : Micro Basestation Must be the First Entry in the List
     stationArr = [nodes.Station(1, posX=1000, posY=1000, range=1200, transmitterPower=40, wavelength=0.007889, gain=7)]  # Micro Station
-    stationArr = stationArr + nodes.createPicoStations(plane, 10, buffer=20)
+    stationArr = stationArr + nodes.createPicoStations(plane, 5, buffer=20)
 
     # Generating New Users
     userArr = nodes.generateUsers(plane, numberOfUsers=50, speed=4)
 
     # Create Initial User/Station Associations
     nodes.calculateAssociations(userArr, stationArr)
+
+    totalSimPower += graph.getNetworkPower(stationArr)
+    simPower.append(graph.getNetworkPower(stationArr))
+
     
     # Calculate Station Cell Strength vs Macro
     nodes.calculateCellStregnth(stationArr)
@@ -52,6 +60,9 @@ def main():
 
             # Update Positions
             graph.updatePositions(plane, userArr)
+
+            totalSimPower += graph.getNetworkPower(stationArr)
+            simPower.append(graph.getNetworkPower(stationArr))
 
             # Replot Frame
             graph.plotFrame(stationArr, userArr)
@@ -84,6 +95,16 @@ def main():
             plt.pause(0.0001)
     
     
+    print("TOTAL SIM POWER (W):" + str(totalSimPower))
+    print(simPower)
+    plt.clf()
+
+    plt.xlim(0, 30)
+    plt.ylim(np.min(simPower)-0.025, np.max(simPower)+0.025)
+    plt.plot(simPower)
+    plt.xlabel("TIME")
+    plt.ylabel("POWER")
+    plt.show()
             
     
     # THE LIST
