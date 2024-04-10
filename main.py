@@ -8,7 +8,7 @@ import csv
 def main():
     # --- Setup Simulation ---
     # Basics
-    plt.figure(figsize=(7, 7))  # Defines the size of the Graph
+    plt.figure(figsize=(8, 8))  # Defines the size of the Graph
     runTime = 7200  # Defines how long to run the simulation in seconds
     pollingRate = 15  # Defines how often the Simulation attempts to Reassociate Users
     updateRate = 60  # Defines how often the AI will update the topology
@@ -16,17 +16,17 @@ def main():
     totalSimPower = 0
     simPower = []
     REDLINE = -74
-    YELLOWLINE = -67
+    YELLOWLINE = -69
 
     # Generating a New Plane
     plane = nodes.Plane(height=2000, width=2000)
 
     # Generating New Stationss
     # REMINDER  : Micro Basestation Must be the First Entry in the List
-    stationArr = [nodes.Station(1, posX=1000, posY=1000, range=1200, transmitterPower=42, wavelength=0.007889, gain=7)]  # Micro Station
+    stationArr = [nodes.Station(1, posX=1000, posY=1000, range=1200, transmitterPower=43, wavelength=0.007889, gain=7)]  # Micro Station
     exRange = nodes.calculateExRange(stationArr[0], YELLOWLINE)
     
-    stationArr = stationArr + nodes.createPicoStations(plane=plane, microStation=stationArr[0], numberOfStations=10, buffer=30, exRange=exRange)
+    stationArr = stationArr + nodes.createPicoStations(plane=plane, microStation=stationArr[0], numberOfStations=10, buffer=40, exRange=exRange)
 
     # Generating New Users
     userArr = nodes.generateUsers(plane, numberOfUsers=50, speed=4)
