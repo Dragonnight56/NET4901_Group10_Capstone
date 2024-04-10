@@ -13,10 +13,10 @@ def main():
     pollingRate = 10  # Defines how often the Simulation attempts to Reassociate Users
     updateRate = 30  # Defines how often the AI will update the topology
     fileName = "training_data.csv"
-
     totalSimPower = 0
     simPower = []
-   
+    REDLINE = -75
+    YELLOWLINE = -68
 
     # Generating a New Plane
     plane = nodes.Plane(height=2000, width=2000)
@@ -24,9 +24,9 @@ def main():
     # Generating New Stationss
     # REMINDER  : Micro Basestation Must be the First Entry in the List
     stationArr = [nodes.Station(1, posX=1000, posY=1000, range=1200, transmitterPower=42, wavelength=0.007889, gain=7)]  # Micro Station
-    exRange = nodes.calculateExRange(stationArr[0], -70)
+    exRange = nodes.calculateExRange(stationArr[0], YELLOWLINE)
     
-    stationArr = stationArr + nodes.createPicoStations(plane=plane, station=stationArr[0], numberOfStations=10, buffer=30, exRange=exRange)
+    stationArr = stationArr + nodes.createPicoStations(plane=plane, microStation=stationArr[0], numberOfStations=10, buffer=30, exRange=exRange)
 
     # Generating New Users
     userArr = nodes.generateUsers(plane, numberOfUsers=50, speed=4)
@@ -69,11 +69,7 @@ def main():
             simPower.append(graph.getNetworkPower(stationArr))
 
             # Replot Frame
-            graph.plotFrame(stationArr, userArr)
-
-            # Reassociation According to Polling Rate
-            if not (time % pollingRate):
-                nodes.calculateAssociations(userArr, stationArr)
+            graph.plotFrame(stationArr, userArr, REDLINE, YELLOWLINE)
 
             # Update Topology
             if not (time % updateRate):
@@ -93,6 +89,10 @@ def main():
                         print(row)
                         csvWriter.writerow(row)
                     file.close()
+                    
+            # Reassociation According to Polling Rate
+            if not (time % pollingRate):
+                nodes.calculateAssociations(userArr, stationArr)
 
             # Wait a tick
             plt.pause(0.0001)
@@ -110,13 +110,5 @@ def main():
     
     plt.show()
             
-    
-    # THE LIST
-    # TODO: Redraw Station Patches Based on calcExRange
-    
-    # TODO: Change Association to be Based on Signal Strength
-    
-    # TODO: 
-
 if __name__ == "__main__":
     main()

@@ -35,13 +35,13 @@ def GraphingPvsT(time=0, power=1, dataReq=1):
         
 # This function is used to graph the current situation from the data provided
 # It takes the plane object, as well as the station and user objects (both in the form of arrays) as input
-def plotFrame(stationArr, userArr):
+def plotFrame(stationArr, userArr, RED, YELLOW):
     # Add the Stations
     # TODO: Add Tapered Effect to the circle, indicating the loss of signal strength over distance
     for station in stationArr:
         plt.scatter(station.posX, station.posY, color='black', marker='o', label=None)
         if (station.state == 1):
-            plt.gca().add_patch(plt.Circle((station.posX, station.posY), station.range, color='gray', alpha=0.2))
+            plt.gca().add_patch(plt.Circle((station.posX, station.posY), nodes.calculateExRange(station, RED), color='gray', alpha=0.2))
     
     # Add the Users
     for user in userArr:
@@ -53,9 +53,9 @@ def plotFrame(stationArr, userArr):
         for user in station.users:
             #all users have the same recv signal
             test.append(nodes.calculateRecievedSignalPower(station, user))
-            if(nodes.calculateRecievedSignalPower(station, user) > -70):
+            if(nodes.calculateRecievedSignalPower(station, user) > YELLOW):
                 plt.plot([user.posX, station.posX], [user.posY, station.posY], color='green', label=None)
-            elif(nodes.calculateRecievedSignalPower(station, user) < -70 and nodes.calculateRecievedSignalPower(station, user) > -75 ):
+            elif(nodes.calculateRecievedSignalPower(station, user) < YELLOW and nodes.calculateRecievedSignalPower(station, user) > RED ):
                 plt.plot([user.posX, station.posX], [user.posY, station.posY], color='yellow', label=None)
             else:
                 plt.plot([user.posX, station.posX], [user.posY, station.posY], color='red', label=None)

@@ -111,7 +111,7 @@ def calculateAssociations(userArr, stationArr):
     for user in userArr:
         candidate = None
         currentAssociation = None
-        candidateDistance = float('inf')
+        candidateDistance = -float('inf')
 
         # For Every Station
         for station in stationArr:
@@ -119,11 +119,11 @@ def calculateAssociations(userArr, stationArr):
             if user in station.users:
                 currentAssociation = station
 
-            # Find the Distance
-            distance = calcDistance(station, user)
+            # Find the Distance / Conncetion Strength
+            distance = calculateRecievedSignalPower(station, user)
 
             # See if this distance is in range and better than the candidate
-            if (distance <= station.range) and (distance < candidateDistance) and (station.state == 1):
+            if (distance > candidateDistance) and (station.state == 1):
                 candidate = station
                 candidateDistance = distance
 
@@ -149,22 +149,35 @@ def calculateAssociations(userArr, stationArr):
 
 def calculateExRange(station, range):
     # Calc distance to range
-    # Rearrange RSS Formulas
     return 10**((range - station.transmitterPower - 10*np.log10(station.gain*1) - 20*np.log10(station.wavelength) + 20*np.log10(4*np.pi)) / -20)
 
 # TODO: Add Inter-Station buffer distance to prevent stations spawning on top of each other
-def createPicoStations(plane, station, numberOfStations, buffer, exRange):
+def createPicoStations(plane, microStation, numberOfStations, buffer, exRange):
     stations = []
     
     for num in range(numberOfStations):
-        flag = True
+        # Create Flags
+        flag1 = 1
+        flag2 = 1
         
-        while(flag):
+        while(flag1 or flag2):
+            # Set Flags
+            flag1 = 1
+            flag2 = 0
+            
+            # Generate Possible Cooridnate
             xPos = np.random.randint(buffer, plane.width-buffer)
             yPos = np.random.randint(buffer, plane.height-buffer)
-            # Test Against Range
-            if (calcDistance(station, Station(100, posX=xPos, posY=yPos)) > exRange):
-                flag = False
+            candidate = Station(100, posX=xPos, posY=yPos)
+            
+            # Test Against Exclusion Range
+            if (calcDistance(microStation, candidate) > exRange):
+                flag1 = 0
+            
+            # Test Against Other Towers buffer
+            for station in stations:
+                if (calcDistance(station, candidate) < buffer):
+                    flag2 = flag2+1
         
         # Create Station
         stations.append(Station(num+2, 
@@ -182,7 +195,6 @@ def getCurrentState(stationArr, userArr, minSignal, time):
     # Declarations
     state = []
     power = 0
-    mbs = stationArr[0]
 
     for station in stationArr:
         # Collect Power
