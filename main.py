@@ -15,8 +15,8 @@ def main():
     fileName = "training_data.csv"
     totalSimPower = 0
     simPower = []
-    REDLINE = -75
-    YELLOWLINE = -68
+    REDLINE = -74
+    YELLOWLINE = -67
 
     # Generating a New Plane
     plane = nodes.Plane(height=2000, width=2000)
