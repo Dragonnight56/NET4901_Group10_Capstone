@@ -74,7 +74,7 @@ def main():
             # Update Topology
             if not (time % updateRate):
                 # Get Current State
-                state = nodes.getCurrentState(stationArr, userArr, minSignal=-40, time=time)
+                state = nodes.getCurrentState(stationArr, userArr, minSignal=-74, time=time)
 
                 # Get AI Reccomendations
                 suggestion = nodes.thresholdSuggestion(stationArr, userArr, 2)
