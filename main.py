@@ -10,8 +10,8 @@ def main():
     # Basics
     plt.figure(figsize=(7, 7))  # Defines the size of the Graph
     runTime = 7200  # Defines how long to run the simulation in seconds
-    pollingRate = 10  # Defines how often the Simulation attempts to Reassociate Users
-    updateRate = 30  # Defines how often the AI will update the topology
+    pollingRate = 15  # Defines how often the Simulation attempts to Reassociate Users
+    updateRate = 60  # Defines how often the AI will update the topology
     fileName = "training_data.csv"
     totalSimPower = 0
     simPower = []
